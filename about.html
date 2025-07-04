@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me - FriendForge</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Shared Modern & Dynamic Styles from index.html/list.html */
+
+        body {
+            font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            background-color: #121212;
+            color: #E0E0E0;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+            line-height: 1.6;
+            text-rendering: optimizeLegibility;
+        }
+
+        .container {
+            max-width: 960px;
+            width: 100%;
+            background-color: #1F1F1F;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            padding: 35px 45px;
+            box-sizing: border-box;
+            margin-bottom: 30px;
+            border: 1px solid rgba(60, 60, 60, 0.8);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .container:hover {
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
+            transform: translateY(-3px);
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(70, 70, 70, 0.6);
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #81D4FA;
+            padding: 12px 25px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+            font-weight: 600;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        nav a i {
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+
+        nav a:hover {
+            background-color: #00838F;
+            color: #FFFFFF;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        nav a.active {
+            background-color: #00ACC1;
+            color: white;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .main-title-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            text-align: center;
+        }
+
+        h1 {
+            text-align: center;
+            color: #B3E5FC;
+            margin-bottom: 35px;
+            font-size: 3em;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-shadow: 0 2px 8px rgba(0, 172, 193, 0.4);
+            border-bottom: 2px solid #00ACC1;
+            padding-bottom: 18px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        h1:hover {
+            color: #E0F7FA;
+            text-shadow: 0 3px 12px rgba(0, 172, 193, 0.7);
+            transform: translateY(-2px);
+        }
+
+        /* Unique Styles for About Page */
+        .about-content {
+            padding: 20px;
+            line-height: 1.8;
+            font-size: 1.1em;
+            text-align: justify; /* Justify text for a cleaner look */
+        }
+
+        .about-content h2 {
+            color: #81D4FA;
+            margin-top: 0;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #00838F;
+            padding-bottom: 12px;
+            font-size: 2.2em;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .about-content h3 { /* Style for new bio heading */
+            color: #B3E5FC;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .about-content p {
+            margin-bottom: 15px;
+            color: #C0C0C0;
+        }
+
+        .about-content ul {
+            list-style: disc inside;
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .about-content ul li {
+            margin-bottom: 8px;
+            color: #D0D0D0;
+        }
+
+        .about-content a {
+            color: #00ACC1; /* Match link color from nav */
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .about-content a:hover {
+            color: #00E5FF; /* Lighter on hover */
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="about.html" class="main-title-link">
+            <h1>FriendForge</h1>
+        </a>
+
+        <nav>
+            <a href="index.html"><i class="fas fa-plus-circle"></i> Add Friend</a>
+            <a href="list.html"><i class="fas fa-users"></i> View Friends List</a>
+        </nav>
+
+        <div class="about-content">
+            <h2>About FriendForge and Me</h2>
+
+            <p>Welcome to FriendForge! This application was created out of a desire to enhance personal connections by providing a simple, private way to remember and manage the unique aspects of our friends.</p>
+
+            <p>In our increasingly digital world, it's easy to lose track of the subtle nuances that make each friendship special. FriendForge aims to bridge that gap, allowing you to quickly recall details like a friend's sense of humor, their favorite foods, or even their punctuality. This isn't about categorizing people, but rather about building stronger, more thoughtful relationships by being more attentive and remembering the things that matter to them.</p>
+
+            <h3>My Motivation</h3>
+            <p>I built FriendForge as a personal project to explore and solidify my skills in **front-end web development**. It's a demonstration of practical application using:</p>
+            <ul>
+                <li>**HTML5:** For structuring the content.</li>
+                <li>**CSS3:** For modern, responsive, and dynamic styling (including the dark mode theme and animations).</li>
+                <li>**JavaScript:** For all the interactive functionalities, data management (using `localStorage`), and dynamic content rendering.</li>
+                <li>**Font Awesome:** For intuitive and appealing icons.</li>
+            </ul>
+
+            <p>This project helped me understand data persistence in the browser, dynamic DOM manipulation, and building a clean, user-friendly interface. It represents my passion for creating useful tools that blend functionality with appealing design.</p>
+
+            <h3>About Mr. Reman Dey (Nickname: Dodo)</h3>
+            <p>
+                Born on November 15, 2006, I'm Reman Dey, a physics enthusiast who thrives on hands-on innovation and solving tough research-oriented problems. My passion comes alive through projects like a functioning hovercraft, a sophisticated laser-based transmitter and receiver, a quadcopter, and even a Tesla turbine. Beyond hardware, I delve into software too, having developed the FriendForge app and created two Python-powered Telegram bots, Dodo and Luna.
+            </p>
+            <p>My academic journey reflects this drive; I've successfully qualified for JEE Advanced and Mains and cleared NSEA twice, demonstrating a solid grasp of scientific principles. Outside of my technical pursuits, I unwind with origami, specializing in intricate paper planes, and enjoy playing percussion instruments.
+</p>
+
+            <h3>Future Enhancements</h3>
+            <p>While currently focused on core features, I envision future enhancements such as:</p>
+            <ul>
+                <li>Data export/import functionality.</li>
+                <li>More advanced search and filtering options.</li>
+                <li>Perhaps a light mode theme toggle!</li>
+            </ul>
+
+        </div>
+    </div>
+</body>
+</html>
