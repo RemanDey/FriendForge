@@ -61,8 +61,8 @@
             transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
             font-weight: 600; /* Bolder text */
             font-size: 1.1em;
-            display: flex;
-            align-items: center;
+            display: flex; /* Allow icon and text to sit together */
+            align-items: center; /* Vertically align icon and text */
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for buttons */
         }
 
@@ -85,6 +85,13 @@
         }
 
         /* Main Heading - Modern Dark Mode */
+        .main-title-link {
+            text-decoration: none; /* Remove underline for the link */
+            color: inherit; /* Inherit color from H1 */
+            display: block; /* Make the whole H1 area clickable */
+            text-align: center;
+        }
+
         h1 {
             text-align: center;
             color: #B3E5FC; /* Bright blue for main heading */
@@ -95,6 +102,13 @@
             text-shadow: 0 2px 8px rgba(0, 172, 193, 0.4); /* Subtle glow effect */
             border-bottom: 2px solid #00ACC1; /* Matching accent border */
             padding-bottom: 18px;
+            transition: all 0.3s ease-in-out; /* Smooth transition for hover */
+        }
+
+        h1:hover {
+            color: #E0F7FA; /* Lighter blue on hover */
+            text-shadow: 0 3px 12px rgba(0, 172, 193, 0.7); /* Stronger glow on hover */
+            transform: translateY(-2px); /* Slight lift */
         }
 
         /* Section Headings - Modern Dark Mode */
@@ -360,7 +374,9 @@
 </head>
 <body>
     <div class="container">
-        <h1>FriendForge</h1>
+        <a href="about.html" class="main-title-link">
+            <h1>FriendForge</h1>
+        </a>
 
         <nav>
             <a href="index.html" class="active"><i class="fas fa-plus-circle"></i> Add Friend</a>
