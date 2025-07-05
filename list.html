@@ -635,6 +635,48 @@
             }
         }
 
+        /* --- Sorting Controls Styles --- */
+        .sort-controls-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .sort-controls-container label {
+            font-weight: bold;
+            color: #B2DFDB;
+            font-size: 1em;
+        }
+
+        #sortSelect {
+            padding: 8px 12px;
+            border: 1px solid #444;
+            border-radius: 8px;
+            font-size: 0.95em;
+            background-color: #333;
+            color: #E0E0E0;
+            appearance: none; /* Remove default dropdown arrow */
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg fill="%23E0E0E0" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>'); /* Custom arrow */
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            background-size: 20px;
+            cursor: pointer;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.4);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            min-width: 180px; /* Ensure enough width for options */
+        }
+
+        #sortSelect:focus {
+            outline: none;
+            border-color: #00ACC1;
+            box-shadow: 0 0 0 3px rgba(0, 172, 193, 0.3), inset 0 1px 3px rgba(0,0,0,0.6);
+        }
+
+
         /* --- Media Queries for Landscape / Larger Screens --- */
 
         /* For screens wider than 576px (e.g., larger phones in landscape, small tablets) */
@@ -847,6 +889,32 @@
                 <input type="text" id="searchBar" placeholder="Search friends...">
             </div>
 
+            <div class="sort-controls-container">
+                <label for="sortSelect"><i class="fas fa-sort"></i> Sort By:</label>
+                <select id="sortSelect">
+                    <option value="name-asc">Name (A-Z)</option>
+                    <option value="name-desc">Name (Z-A)</option>
+                    <option value="truthness-desc">Truthfulness (High to Low)</option>
+                    <option value="truthness-asc">Truthfulness (Low to High)</option>
+                    <option value="angriness-desc">Angriness (High to Low)</option>
+                    <option value="angriness-asc">Angriness (Low to High)</option>
+                    <option value="humor-desc">Humor (High to Low)</option>
+                    <option value="humor-asc">Humor (Low to High)</option>
+                    <option value="empathy-desc">Empathy (High to Low)</option>
+                    <option value="empathy-asc">Empathy (Low to High)</option>
+                    <option value="optimism-desc">Optimism (High to Low)</option>
+                    <option value="optimism-asc">Optimism (Low to High)</option>
+                    <option value="creativity-desc">Creativity (High to Low)</option>
+                    <option value="creativity-asc">Creativity (Low to High)</option>
+                    <option value="socialScore-desc">Social Score (High to Low)</option>
+                    <option value="socialScore-asc">Social Score (Low to High)</option>
+                    <option value="calmness-desc">Calmness (High to Low)</option>
+                    <option value="calmness-asc">Calmness (Low to High)</option>
+                    <option value="punctuality-desc">Punctuality (High to Low)</option>
+                    <option value="punctuality-asc">Punctuality (Low to High)</option>
+                </select>
+            </div>
+
             <div class="filter-controls-container">
                 <button id="filterButton"><i class="fas fa-filter"></i> Filter Friends</button>
                 <div id="filterPanel" class="filter-dropdown-menu">
@@ -1038,6 +1106,9 @@
                 filterInputs[`${param}Filter`] = document.getElementById(`${param}Filter`);
             });
 
+            // --- Sorting Elements ---
+            const sortSelect = document.getElementById('sortSelect');
+
             // --- Filter Panel Toggle Logic ---
             filterButton.addEventListener('click', function(event) {
                 event.stopPropagation(); // Prevent document click from immediately closing it
@@ -1051,10 +1122,12 @@
                 }
             });
 
-            // --- Filter and Search Logic for Render ---
+            // --- Filter, Search, and Sort Logic for Render ---
             function renderFriendsList() {
                 const allFriends = getFriends(); // Get all friends
                 const searchTerm = searchBar.value.toLowerCase();
+                const sortBy = sortSelect.value; // Get current sort selection
+                let [sortKey, sortOrder] = sortBy.split('-'); // e.g., "name-asc" -> ["name", "asc"]
 
                 friendsListContainer.innerHTML = ''; // Clear existing cards
 
@@ -1079,7 +1152,8 @@
                     for (const param of numericalParams) {
                         const minVal = parseFloat(filterInputs[`${param}Min`].value);
                         const maxVal = parseFloat(filterInputs[`${param}Max`].value);
-                        const friendValue = parseFloat(friend[param]); // Ensure friend[param] is a number
+                        // Use a default of 0 if parameter is missing, or ensure it's a number
+                        const friendValue = parseFloat(friend[param] || 0); 
 
                         if (!isNaN(minVal) && friendValue < minVal) {
                             return false;
@@ -1092,7 +1166,7 @@
                     // 3. Apply Text Parameter Filters
                     for (const param of textParams) {
                         const filterText = filterInputs[`${param}Filter`].value.toLowerCase().trim();
-                        const friendText = friend[param] ? String(friend[param]).toLowerCase() : ''; // Ensure friend[param] is a string
+                        const friendText = friend[param] ? String(friend[param]).toLowerCase() : ''; 
 
                         if (filterText && !friendText.includes(filterText)) {
                             return false;
@@ -1101,6 +1175,32 @@
 
                     return true; // Friend matches all search and filter criteria
                 });
+
+                // 4. Apply Sorting
+                filteredAndSearchedFriends.sort((a, b) => {
+                    let valA, valB;
+
+                    if (sortKey === 'name') {
+                        valA = a.name.toLowerCase();
+                        valB = b.name.toLowerCase();
+                        if (sortOrder === 'asc') {
+                            return valA.localeCompare(valB);
+                        } else {
+                            return valB.localeCompare(valA);
+                        }
+                    } else { // Numerical parameters
+                        // Use 0 if the parameter is undefined/null for consistent sorting
+                        valA = parseFloat(a[sortKey] || 0); 
+                        valB = parseFloat(b[sortKey] || 0);
+
+                        if (sortOrder === 'asc') {
+                            return valA - valB;
+                        } else {
+                            return valB - valA;
+                        }
+                    }
+                });
+
 
                 if (filteredAndSearchedFriends.length === 0) {
                     friendsListContainer.innerHTML = `<p style="text-align: center; color: #999;">No friends found matching your search and filter criteria.</p>`;
@@ -1115,8 +1215,10 @@
             // Initial render
             renderFriendsList();
 
-            // Event Listeners for Search and Filter
+            // Event Listeners for Search, Filter, and Sort
             searchBar.addEventListener('input', renderFriendsList);
+            sortSelect.addEventListener('change', renderFriendsList); // Added listener for sort dropdown
+
             applyFiltersBtn.addEventListener('click', function() {
                 renderFriendsList(); // Re-render with current filter settings
                 filterPanel.classList.remove('visible'); // Hide panel after applying
