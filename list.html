@@ -676,6 +676,126 @@
             box-shadow: 0 0 0 3px rgba(0, 172, 193, 0.3), inset 0 1px 3px rgba(0,0,0,0.6);
         }
 
+        /* --- Friend Comparison Styles --- */
+        .comparison-controls-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(70, 70, 70, 0.6);
+        }
+
+        .comparison-dropdowns {
+            display: flex;
+            flex-direction: column; /* Stack dropdowns on small screens */
+            gap: 10px;
+            width: 100%;
+            max-width: 500px;
+        }
+        .comparison-dropdowns select {
+            padding: 10px 15px;
+            border: 1px solid #444;
+            border-radius: 8px;
+            font-size: 1em;
+            background-color: #333;
+            color: #E0E0E0;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg fill="%23E0E0E0" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 24px;
+            cursor: pointer;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.4);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            flex-grow: 1; /* Allow dropdowns to grow */
+        }
+        .comparison-dropdowns select:focus {
+            outline: none;
+            border-color: #00ACC1;
+            box-shadow: 0 0 0 3px rgba(0, 172, 193, 0.3), inset 0 1px 3px rgba(0,0,0,0.6);
+        }
+
+        #compareFriendsBtn {
+            width: 100%; /* Full width button on small screens */
+            max-width: 250px; /* Limit button width */
+            background-color: #673AB7; /* Deep Purple for compare */
+            box-shadow: 0 3px 10px rgba(103, 58, 183, 0.4);
+        }
+        #compareFriendsBtn:hover {
+            background-color: #512DA8;
+            box-shadow: 0 5px 15px rgba(103, 58, 183, 0.6);
+        }
+
+        #comparisonResult {
+            margin-top: 20px;
+            background-color: #282828;
+            border: 1px solid rgba(70, 70, 70, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+            display: none; /* Hidden by default, shown by JS */
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        #comparisonResult h3 {
+            color: #BBDEFB;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 1px solid #424242;
+            padding-bottom: 10px;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .comparison-table th, .comparison-table td {
+            padding: 10px 15px;
+            text-align: left;
+            border-bottom: 1px solid #3A3A3A;
+        }
+
+        .comparison-table th {
+            background-color: #3A3A3A;
+            color: #BBDEFB;
+            font-weight: 600;
+            font-size: 1.1em;
+            vertical-align: top; /* Align headers to top */
+        }
+
+        .comparison-table td {
+            color: #E0E0E0;
+            font-size: 1em;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table .param-label {
+            width: 30%; /* Adjust width for labels */
+            font-weight: bold;
+            color: #81D4FA;
+            white-space: nowrap; /* Prevent wrapping */
+        }
+        .comparison-table .friend-value-column {
+             width: 35%; /* Equal width for friend values */
+             vertical-align: middle;
+        }
+        /* Specific styling for the text-based parameters in comparison */
+        .comparison-table td.text-param-value {
+            white-space: normal; /* Allow text to wrap naturally */
+            word-wrap: break-word; /* Break long words */
+            max-width: 250px; /* Limit max width of text column if needed */
+        }
 
         /* --- Media Queries for Landscape / Larger Screens --- */
 
@@ -733,6 +853,28 @@
                 right: auto;
                 transform: translateX(-50%); /* Center horizontally relative to parent */
                 left: 50%; /* Position at 50% for centering */
+            }
+
+            /* Comparison controls adjustment */
+            .comparison-controls-container {
+                flex-direction: row; /* Dropdowns and button inline */
+                flex-wrap: wrap; /* Allow wrapping if not enough space */
+                justify-content: center;
+            }
+            .comparison-dropdowns {
+                flex-direction: row; /* Dropdowns side-by-side */
+                max-width: none; /* Remove max-width */
+                flex-grow: 1; /* Allow them to take space */
+            }
+            #compareFriendsBtn {
+                width: auto; /* Button auto-width */
+                min-width: 150px;
+            }
+            #comparisonResult h3 {
+                font-size: 2em;
+            }
+            .comparison-table th, .comparison-table td {
+                padding: 12px 18px; /* More padding */
             }
         }
 
@@ -915,6 +1057,24 @@
                 </select>
             </div>
 
+            <div class="comparison-controls-container">
+                <div class="comparison-dropdowns">
+                    <select id="friend1Select">
+                        <option value="">Select Friend 1</option>
+                    </select>
+                    <select id="friend2Select">
+                        <option value="">Select Friend 2</option>
+                    </select>
+                </div>
+                <button id="compareFriendsBtn"><i class="fas fa-exchange-alt"></i> Compare Friends</button>
+            </div>
+
+            <div id="comparisonResult" style="display: none;">
+                <h3>Friend Comparison</h3>
+                <div id="comparisonTableContainer">
+                    </div>
+            </div>
+
             <div class="filter-controls-container">
                 <button id="filterButton"><i class="fas fa-filter"></i> Filter Friends</button>
                 <div id="filterPanel" class="filter-dropdown-menu">
@@ -1016,6 +1176,7 @@
                 friends = friends.filter(friend => friend.name !== nameToDelete);
                 saveFriends(friends);
                 renderFriendsList(); // Re-render the list after deletion
+                populateFriendSelects(); // Re-populate comparison dropdowns
                 alert(`${nameToDelete} has been deleted.`);
             }
         }
@@ -1108,6 +1269,13 @@
 
             // --- Sorting Elements ---
             const sortSelect = document.getElementById('sortSelect');
+
+            // --- Comparison Elements ---
+            const friend1Select = document.getElementById('friend1Select');
+            const friend2Select = document.getElementById('friend2Select');
+            const compareFriendsBtn = document.getElementById('compareFriendsBtn');
+            const comparisonResultDiv = document.getElementById('comparisonResult');
+            const comparisonTableContainer = document.getElementById('comparisonTableContainer');
 
             // --- Filter Panel Toggle Logic ---
             filterButton.addEventListener('click', function(event) {
@@ -1212,8 +1380,108 @@
                 });
             }
 
+            // --- Comparison Tool Logic ---
+            function populateFriendSelects() {
+                const friends = getFriends();
+                friend1Select.innerHTML = '<option value="">Select Friend 1</option>';
+                friend2Select.innerHTML = '<option value="">Select Friend 2</option>';
+
+                friends.forEach(friend => {
+                    const option1 = document.createElement('option');
+                    option1.value = friend.name;
+                    option1.textContent = friend.name;
+                    friend1Select.appendChild(option1);
+
+                    const option2 = document.createElement('option');
+                    option2.value = friend.name;
+                    option2.textContent = friend.name;
+                    friend2Select.appendChild(option2);
+                });
+
+                // Clear any previous comparison results and hide the section
+                comparisonResultDiv.style.display = 'none';
+            }
+
+            function displayComparison(friend1, friend2) {
+                if (!friend1 || !friend2) {
+                    alert("Please select two different friends to compare.");
+                    return;
+                }
+
+                if (friend1.name === friend2.name) {
+                    alert("Please select two *different* friends to compare.");
+                    return;
+                }
+
+                let html = `<table class="comparison-table">
+                                <thead>
+                                    <tr>
+                                        <th>Parameter</th>
+                                        <th>${friend1.name}</th>
+                                        <th>${friend2.name}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>`;
+
+                const allParams = [
+                    { key: 'truthness', label: 'Truthfulness', type: 'numerical' },
+                    { key: 'angriness', label: 'Angriness', type: 'numerical' },
+                    { key: 'humor', label: 'Humor', type: 'numerical' },
+                    { key: 'empathy', label: 'Empathy', type: 'numerical' },
+                    { key: 'optimism', label: 'Optimism', type: 'numerical' },
+                    { key: 'creativity', label: 'Creativity', type: 'numerical' },
+                    { key: 'socialScore', label: 'Social Score', type: 'numerical' },
+                    { key: 'calmness', label: 'Calmness', type: 'numerical' },
+                    { key: 'punctuality', label: 'Punctuality', type: 'numerical' },
+                    { key: 'foodPreference', label: 'Food Preference', type: 'text' },
+                    { key: 'hobbies', label: 'Hobbies', type: 'text' },
+                    { key: 'notes', label: 'Notes', type: 'text' }
+                ];
+
+                allParams.forEach(param => {
+                    const val1 = friend1[param.key] !== undefined ? friend1[param.key] : 'N/A';
+                    const val2 = friend2[param.key] !== undefined ? friend2[param.key] : 'N/A';
+
+                    html += `<tr>
+                                <td class="param-label">${param.label}:</td>`;
+                    
+                    if (param.type === 'numerical') {
+                        html += `<td class="friend-value-column">
+                                    ${val1}/10
+                                    <div class="progress-container"><div class="progress-bar ${getProgressBarClass(val1)}" style="width: ${val1 * 10}%;"></div></div>
+                                </td>
+                                <td class="friend-value-column">
+                                    ${val2}/10
+                                    <div class="progress-container"><div class="progress-bar ${getProgressBarClass(val2)}" style="width: ${val2 * 10}%;"></div></div>
+                                </td>`;
+                    } else { // Text parameters
+                        html += `<td class="friend-value-column text-param-value">${val1 || 'N/A'}</td>
+                                <td class="friend-value-column text-param-value">${val2 || 'N/A'}</td>`;
+                    }
+                    html += `</tr>`;
+                });
+
+                html += `</tbody></table>`;
+                comparisonTableContainer.innerHTML = html;
+                comparisonResultDiv.style.display = 'block'; // Show the comparison section
+            }
+
+            // Event Listener for Compare Button
+            compareFriendsBtn.addEventListener('click', function() {
+                const friends = getFriends();
+                const selectedName1 = friend1Select.value;
+                const selectedName2 = friend2Select.value;
+
+                const friend1 = friends.find(f => f.name === selectedName1);
+                const friend2 = friends.find(f => f.name === selectedName2);
+
+                displayComparison(friend1, friend2);
+            });
+
+
             // Initial render
             renderFriendsList();
+            populateFriendSelects(); // Populate dropdowns when page loads
 
             // Event Listeners for Search, Filter, and Sort
             searchBar.addEventListener('input', renderFriendsList);
@@ -1314,6 +1582,7 @@
                         
                         saveFriends(finalFriends);
                         renderFriendsList(); // Re-render the list with new data
+                        populateFriendSelects(); // Re-populate comparison dropdowns after import
                         
                     } catch (error) {
                         console.error("Error importing data:", error);
