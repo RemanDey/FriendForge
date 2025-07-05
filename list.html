@@ -130,7 +130,7 @@
             text-align: center;
         }
 
-        /* Form Styling - Modern Dark Mode (Not directly in list.html, but included for consistency) */
+        /* Form Styling (copied from index.html for consistency, though not directly used here) */
         form {
             display: flex;
             flex-direction: column;
@@ -155,7 +155,6 @@
         }
 
         .form-group input[type="text"],
-        .form-group input[type="number"],
         .form-group textarea {
             padding: 10px 12px; /* Reduced padding */
             border: 1px solid #444;
@@ -170,14 +169,82 @@
         }
 
         .form-group input[type="text"]:focus,
-        .form-group input[type="number"]:focus,
         .form-group textarea:focus {
             outline: none;
             border-color: #00ACC1;
             box-shadow: 0 0 0 3px rgba(0, 172, 193, 0.3), inset 0 1px 2px rgba(0, 0, 0, 0.6);
         }
 
-        /* Button Styling - Modern Dynamic (Not directly in list.html, but included for consistency) */
+        /* Styling for range inputs (sliders) */
+        .form-group input[type="range"] {
+            -webkit-appearance: none; /* Remove default styling */
+            width: 100%;
+            height: 10px; /* Adjust height of the track */
+            background: #444; /* Default track color */
+            border-radius: 5px;
+            outline: none;
+            margin: 10px 0; /* Space above/below */
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
+            transition: background 0.3s ease;
+        }
+
+        /* Thumb (handle) styling for Webkit browsers (Chrome, Safari) */
+        .form-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px; /* Size of the thumb */
+            height: 25px; /* Size of the thumb */
+            border-radius: 50%; /* Make it circular */
+            background: #00ACC1; /* Thumb color */
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+            margin-top: -8px; /* Center thumb vertically on track */
+            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+        /* Thumb (handle) styling for Firefox */
+        .form-group input[type="range"]::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #00ACC1;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+            border: none; /* Remove default border */
+            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+        /* Focus styles for the slider thumb */
+        .form-group input[type="range"]:focus::-webkit-slider-thumb {
+            box-shadow: 0 0 0 4px rgba(0, 172, 193, 0.4), 0 2px 8px rgba(0, 0, 0, 0.6);
+            transform: scale(1.1);
+        }
+        .form-group input[type="range"]:focus::-moz-range-thumb {
+            box-shadow: 0 0 0 4px rgba(0, 172, 193, 0.4), 0 2px 8px rgba(0, 0, 0, 0.6);
+            transform: scale(1.1);
+        }
+
+        /* Container for slider and its value */
+        .slider-group {
+            display: flex;
+            align-items: center;
+            gap: 10px; /* Space between slider and value display */
+        }
+
+        .slider-group input[type="range"] {
+            flex-grow: 1; /* Make slider take up available space */
+            margin: 0; /* Reset margin from general range styling */
+        }
+
+        .slider-value {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #B3E5FC;
+            min-width: 30px; /* Ensure space for two digits + /10 */
+            text-align: right;
+        }
+
+        /* Button Styling - Modern Dynamic */
         button {
             padding: 10px 20px; /* Reduced padding */
             background-color: #00ACC1;
@@ -202,7 +269,7 @@
             box-shadow: 0 2px 8px rgba(0, 172, 193, 0.3);
         }
 
-        #clearForm {
+        #clearForm { /* This button is on index.html, keeping for consistency */
             background-color: #FFB300;
             box-shadow: 0 3px 10px rgba(255, 179, 0, 0.4);
         }
@@ -374,6 +441,50 @@
             box-shadow: 0 0 0 3px rgba(0, 172, 193, 0.3), inset 0 1px 3px rgba(0,0,0,0.6);
         }
 
+        /* Export/Import Buttons Container */
+        .data-management-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(70, 70, 70, 0.6);
+        }
+
+        .data-management-buttons button {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .data-management-buttons button i {
+            margin-right: 8px;
+        }
+
+        #exportData {
+            background-color: #4CAF50; /* Green for export */
+            box-shadow: 0 3px 10px rgba(76, 175, 80, 0.4);
+        }
+        #exportData:hover {
+            background-color: #45a049;
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.6);
+        }
+
+        #importDataButton {
+            background-color: #2196F3; /* Blue for import */
+            box-shadow: 0 3px 10px rgba(33, 150, 243, 0.4);
+        }
+        #importDataButton:hover {
+            background-color: #1e88e5;
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.6);
+        }
+
+        /* Hide the actual file input */
+        #importFileInput {
+            display: none;
+        }
+
 
         /* --- Media Queries for Landscape / Larger Screens --- */
 
@@ -411,6 +522,15 @@
             }
             .friend-card {
                 padding: 20px 22px;
+            }
+
+            .data-management-buttons {
+                flex-direction: row; /* Buttons side-by-side */
+                justify-content: center;
+            }
+            .data-management-buttons button {
+                width: auto; /* Allow buttons to size content */
+                min-width: 150px;
             }
         }
 
@@ -459,7 +579,6 @@
             }
 
             .form-group input[type="text"],
-            .form-group input[type="number"],
             .form-group textarea {
                 padding: 12px 15px; /* Restore original input padding */
                 font-size: 1.1em;
@@ -539,6 +658,11 @@
                 border-radius: 25px; /* Restore original border-radius */
                 font-size: 1.1em; /* Restore original font size */
             }
+
+            .data-management-buttons {
+                flex-direction: row; /* Buttons side-by-side */
+                justify-content: center;
+            }
         }
 
         /* Specific adjustment for navigation in very wide screens to prevent stretching */
@@ -567,8 +691,16 @@
             <div class="search-container">
                 <input type="text" id="searchBar" placeholder="Search friends...">
             </div>
-            <div id="friends-list" class="friends-grid">
-                </div>
+
+            <div class="data-management-buttons">
+                <button id="exportData"><i class="fas fa-download"></i> Export Data (JSON)</button>
+                <input type="file" id="importFileInput" accept=".json">
+                <button id="importDataButton"><i class="fas fa-upload"></i> Import Data (JSON)</button>
+            </div>
+
+            <div id="friendsList" class="friends-grid">
+                <p id="noFriendsMessage">No friends added yet. Go to 'Add Friend' to get started!</p>
+            </div>
         </div>
     </div>
 
@@ -582,63 +714,66 @@
             localStorage.setItem('friends', JSON.stringify(friends));
         }
 
-        function renderFriends(friendsToDisplay) {
-            const friendsListDiv = document.getElementById('friends-list');
-            friendsListDiv.innerHTML = ''; // Clear existing cards
-
-            if (friendsToDisplay.length === 0) {
-                friendsListDiv.innerHTML = '<p style="text-align: center; color: #999;">No friends found. Add some on the "Add Friend" page!</p>';
-                return;
+        function deleteFriend(nameToDelete) {
+            if (confirm(`Are you sure you want to delete ${nameToDelete}? This action cannot be undone.`)) {
+                let friends = getFriends();
+                friends = friends.filter(friend => friend.name !== nameToDelete);
+                saveFriends(friends);
+                renderFriendsList(); // Re-render the list after deletion
+                alert(`${nameToDelete} has been deleted.`);
             }
+        }
 
-            friendsToDisplay.forEach(friend => {
-                const friendCard = document.createElement('div');
-                friendCard.className = 'friend-card';
-                friendCard.setAttribute('data-name', friend.name); // Used for search and delete
+        function createFriendCard(friend) {
+            const card = document.createElement('div');
+            card.classList.add('friend-card');
+            card.dataset.name = friend.name; // Store name for easy reference
 
-                friendCard.innerHTML = `
-                    <h3>${friend.name}</h3>
-                    <button class="delete-card-button" data-name="${friend.name}"><i class="fas fa-times"></i></button>
-
-                    <p><strong>Truthfulness:</strong> ${friend.truthness}/10</p>
-                    <div class="progress-container"><div class="progress-bar ${getProgressBarClass(friend.truthness)}" style="width: ${(friend.truthness / 10) * 100}%"></div></div>
-
-                    <p><strong>Angriness:</strong> ${friend.angriness}/10</p>
-                    <div class="progress-container"><div class="progress-bar ${getProgressBarClass(friend.angriness)}" style="width: ${(friend.angriness / 10) * 100}%"></div></div>
-
-                    <p><strong>Humor:</strong> ${friend.humor}/10</p>
-                    <div class="progress-container"><div class="progress-bar ${getProgressBarClass(friend.humor)}" style="width: ${(friend.humor / 10) * 100}%"></div></div>
-
-                    <p><strong>Empathy:</strong> ${friend.empathy || 'N/A'}/10</p>
-                    <div class="progress-container"><div class="progress-bar ${getProgressBarClass(friend.empathy)}" style="width: ${(friend.empathy / 10) * 100}%"></div></div>
-
-                    <p><strong>Optimism:</strong> ${friend.optimism || 'N/A'}/10</p>
-                    <div class="progress-container"><div class="progress-bar ${getProgressBarClass(friend.optimism)}" style="width: ${(friend.optimism / 10) * 100}%"></div></div>
-
-                    <p><strong>Creativity:</strong> ${friend.creativity || 'N/A'}/10</p>
-                    <div class="progress-container"><div class="progress-bar ${getProgressBarClass(friend.creativity)}" style="width: ${(friend.creativity / 10) * 100}%"></div></div>
-
-                    <p><strong>Social Score:</strong> ${friend.socialScore || 'N/A'}/10</p>
-                    <div class="progress-container"><div class="progress-bar ${getProgressBarClass(friend.socialScore)}" style="width: ${(friend.socialScore / 10) * 100}%"></div></div>
-
-                    <p><strong>Calmness:</strong> ${friend.calmness || 'N/A'}/10</p>
-                    <div class="progress-container"><div class="progress-bar ${getProgressBarClass(friend.calmness)}" style="width: ${(friend.calmness / 10) * 100}%"></div></div>
-
-                    <p><strong>Punctuality:</strong> ${friend.punctuality || 'N/A'}/10</p>
-                    <div class="progress-container"><div class="progress-bar ${getProgressBarClass(friend.punctuality)}" style="width: ${(friend.punctuality / 10) * 100}%"></div></div>
-
-                    <p class="text-param"><strong>Food Preference:</strong> ${friend.foodPreference || 'N/A'}</p>
-                    <p class="text-param"><strong>Hobbies:</strong> ${friend.hobbies || 'N/A'}</p>
-                    <p class="text-param"><strong>Notes:</strong> ${friend.notes || 'N/A'}</p>
-                `;
-                friendsListDiv.appendChild(friendCard);
+            // Click card to edit
+            card.addEventListener('click', function(event) {
+                // Ensure we don't trigger edit if delete button was clicked
+                if (!event.target.classList.contains('delete-card-button') && !event.target.closest('.delete-card-button')) {
+                    window.location.href = `index.html?edit=${encodeURIComponent(friend.name)}`;
+                }
             });
+
+            card.innerHTML = `
+                <h3>${friend.name}</h3>
+                <button class="delete-card-button" title="Delete Friend"><i class="fas fa-trash-alt"></i></button>
+                <p><strong>Truthfulness:</strong> ${friend.truthness}/10</p>
+                <div class="progress-container"><div class="progress-bar ${getProgressBarClass(friend.truthness)}" style="width: ${friend.truthness * 10}%;"></div></div>
+                <p><strong>Angriness:</strong> ${friend.angriness}/10</p>
+                <div class="progress-container"><div class="progress-bar ${getProgressBarClass(friend.angriness)}" style="width: ${friend.angriness * 10}%;"></div></div>
+                <p><strong>Humor:</strong> ${friend.humor}/10</p>
+                <div class="progress-container"><div class="progress-bar ${getProgressBarClass(friend.humor)}" style="width: ${friend.humor * 10}%;"></div></div>
+                <p><strong>Empathy:</strong> ${friend.empathy}/10</p>
+                <div class="progress-container"><div class="progress-bar ${getProgressBarClass(friend.empathy)}" style="width: ${friend.empathy * 10}%;"></div></div>
+                <p><strong>Optimism:</strong> ${friend.optimism}/10</p>
+                <div class="progress-container"><div class="progress-bar ${getProgressBarClass(friend.optimism)}" style="width: ${friend.optimism * 10}%;"></div></div>
+                <p><strong>Creativity:</strong> ${friend.creativity}/10</p>
+                <div class="progress-container"><div class="progress-bar ${getProgressBarClass(friend.creativity)}" style="width: ${friend.creativity * 10}%;"></div></div>
+                <p><strong>Social Score:</strong> ${friend.socialScore}/10</p>
+                <div class="progress-container"><div class="progress-bar ${getProgressBarClass(friend.socialScore)}" style="width: ${friend.socialScore * 10}%;"></div></div>
+                <p><strong>Calmness:</strong> ${friend.calmness}/10</p>
+                <div class="progress-container"><div class="progress-bar ${getProgressBarClass(friend.calmness)}" style="width: ${friend.calmness * 10}%;"></div></div>
+                <p><strong>Punctuality:</strong> ${friend.punctuality}/10</p>
+                <div class="progress-container"><div class="progress-bar ${getProgressBarClass(friend.punctuality)}" style="width: ${friend.punctuality * 10}%;"></div></div>
+                <p class="text-param"><strong>Food:</strong> ${friend.foodPreference || 'N/A'}</p>
+                <p class="text-param"><strong>Hobbies:</strong> ${friend.hobbies || 'N/A'}</p>
+                <p class="text-param"><strong>Notes:</strong> ${friend.notes || 'N/A'}</p>
+            `;
+
+            // Attach event listener to the delete button within the card
+            const deleteBtn = card.querySelector('.delete-card-button');
+            deleteBtn.addEventListener('click', function(event) {
+                event.stopPropagation(); // Prevent card click event from firing
+                deleteFriend(friend.name);
+            });
+
+            return card;
         }
 
         function getProgressBarClass(value) {
-            if (value === null || isNaN(value)) {
-                return 'low'; // Default for N/A or invalid
-            }
             if (value <= 3) {
                 return 'low';
             } else if (value <= 7) {
@@ -648,40 +783,143 @@
             }
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            let allFriends = getFriends();
-            renderFriends(allFriends);
+        function renderFriendsList() {
+            const friendsListContainer = document.getElementById('friendsList');
+            const noFriendsMessage = document.getElementById('noFriendsMessage');
+            const friends = getFriends();
+            const searchTerm = document.getElementById('searchBar').value.toLowerCase();
 
-            const searchBar = document.getElementById('searchBar');
-            searchBar.addEventListener('input', function() {
-                const searchTerm = searchBar.value.toLowerCase();
-                const filteredFriends = allFriends.filter(friend =>
-                    friend.name.toLowerCase().includes(searchTerm) ||
-                    (friend.foodPreference && friend.foodPreference.toLowerCase().includes(searchTerm)) ||
-                    (friend.hobbies && friend.hobbies.toLowerCase().includes(searchTerm)) ||
-                    (friend.notes && friend.notes.toLowerCase().includes(searchTerm))
-                );
-                renderFriends(filteredFriends);
+            friendsListContainer.innerHTML = ''; // Clear existing cards
+
+            if (friends.length === 0) {
+                noFriendsMessage.style.display = 'block';
+                return;
+            } else {
+                noFriendsMessage.style.display = 'none';
+            }
+
+            const filteredFriends = friends.filter(friend => {
+                // Search by name
+                if (friend.name.toLowerCase().includes(searchTerm)) return true;
+
+                // Search by notes, food, hobbies (if they exist)
+                if (friend.notes && friend.notes.toLowerCase().includes(searchTerm)) return true;
+                if (friend.foodPreference && friend.foodPreference.toLowerCase().includes(searchTerm)) return true;
+                if (friend.hobbies && friend.hobbies.toLowerCase().includes(searchTerm)) return true;
+
+                return false;
             });
 
-            const friendsListDiv = document.getElementById('friends-list');
-            friendsListDiv.addEventListener('click', function(event) {
-                // Handle Delete Button
-                if (event.target.closest('.delete-card-button')) {
-                    const button = event.target.closest('.delete-card-button');
-                    const friendName = button.getAttribute('data-name');
-                    if (confirm(`Are you sure you want to delete ${friendName}?`)) {
-                        allFriends = allFriends.filter(friend => friend.name !== friendName);
-                        saveFriends(allFriends);
-                        renderFriends(allFriends);
+            if (filteredFriends.length === 0 && searchTerm !== "") {
+                friendsListContainer.innerHTML = `<p style="text-align: center; color: #999;">No friends found matching "${searchTerm}".</p>`;
+                return;
+            } else if (filteredFriends.length === 0) {
+                // This case should ideally be caught by the initial friends.length === 0 check
+                noFriendsMessage.style.display = 'block';
+                return;
+            }
+
+
+            filteredFriends.forEach(friend => {
+                friendsListContainer.appendChild(createFriendCard(friend));
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            renderFriendsList();
+
+            const searchBar = document.getElementById('searchBar');
+            searchBar.addEventListener('input', renderFriendsList);
+
+            // --- Export Data Feature ---
+            const exportDataBtn = document.getElementById('exportData');
+            exportDataBtn.addEventListener('click', function() {
+                const friends = getFriends();
+                if (friends.length === 0) {
+                    alert("No friend data to export!");
+                    return;
+                }
+
+                const dataStr = JSON.stringify(friends, null, 2); // null, 2 for pretty printing
+                const blob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'friendforge_data.json';
+                document.body.appendChild(a); // Append to body is good practice
+                a.click();
+                document.body.removeChild(a); // Clean up
+                URL.revokeObjectURL(url); // Release the URL object
+                alert('FriendForge data exported successfully!');
+            });
+
+            // --- Import Data Feature ---
+            const importFileInput = document.getElementById('importFileInput');
+            const importDataButton = document.getElementById('importDataButton');
+
+            // Trigger file input click when import button is clicked
+            importDataButton.addEventListener('click', function() {
+                importFileInput.click();
+            });
+
+            importFileInput.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (!file) {
+                    return; // No file selected
+                }
+
+                if (file.type !== "application/json") {
+                    alert("Please select a valid JSON file (.json).");
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const importedFriends = JSON.parse(e.target.result);
+
+                        // Basic validation: Check if it's an array and contains objects that look like friends
+                        if (!Array.isArray(importedFriends)) {
+                            throw new Error("Invalid data format: Expected an array.");
+                        }
+                        if (importedFriends.length > 0 && typeof importedFriends[0] !== 'object' || !importedFriends[0].name) {
+                            throw new Error("Invalid data format: Array elements do not look like friend objects.");
+                        }
+
+                        // Optional: Ask user if they want to merge or overwrite
+                        const overwrite = confirm("Do you want to REPLACE your current friend data with the imported data? (Click Cancel to MERGE data)");
+                        
+                        let finalFriends = [];
+                        if (overwrite) {
+                            finalFriends = importedFriends;
+                            alert("FriendForge data replaced successfully!");
+                        } else {
+                            let currentFriends = getFriends();
+                            // Simple merge: add new friends, update existing by name
+                            importedFriends.forEach(importedFriend => {
+                                const existingIndex = currentFriends.findIndex(f => f.name.toLowerCase() === importedFriend.name.toLowerCase());
+                                if (existingIndex > -1) {
+                                    currentFriends[existingIndex] = importedFriend; // Update existing
+                                } else {
+                                    currentFriends.push(importedFriend); // Add new
+                                }
+                            });
+                            finalFriends = currentFriends;
+                            alert("FriendForge data merged successfully!");
+                        }
+                        
+                        saveFriends(finalFriends);
+                        renderFriendsList(); // Re-render the list with new data
+                        
+                    } catch (error) {
+                        console.error("Error importing data:", error);
+                        alert(`Failed to import data: ${error.message || "Invalid JSON file or data format."}\nPlease ensure the file is a valid FriendForge export.`);
+                    } finally {
+                        // Clear the file input so the same file can be selected again if needed
+                        event.target.value = '';
                     }
-                }
-                // Handle Card Click for Editing (but not if delete button was clicked)
-                else if (event.target.closest('.friend-card') && !event.target.closest('.delete-card-button')) {
-                    const card = event.target.closest('.friend-card');
-                    const friendName = card.getAttribute('data-name');
-                    window.location.href = `index.html?edit=${encodeURIComponent(friendName)}`;
-                }
+                };
+                reader.readAsText(file);
             });
         });
     </script>
