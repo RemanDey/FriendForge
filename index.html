@@ -154,8 +154,8 @@
             font-size: 1em; /* Adjusted font size */
         }
 
+        /* Styling for text inputs and textareas */
         .form-group input[type="text"],
-        .form-group input[type="number"],
         .form-group textarea {
             padding: 10px 12px; /* Reduced padding */
             border: 1px solid #444;
@@ -170,12 +170,81 @@
         }
 
         .form-group input[type="text"]:focus,
-        .form-group input[type="number"]:focus,
         .form-group textarea:focus {
             outline: none;
             border-color: #00ACC1;
             box-shadow: 0 0 0 3px rgba(0, 172, 193, 0.3), inset 0 1px 2px rgba(0, 0, 0, 0.6);
         }
+
+        /* Styling for range inputs (sliders) */
+        .form-group input[type="range"] {
+            -webkit-appearance: none; /* Remove default styling */
+            width: 100%;
+            height: 10px; /* Adjust height of the track */
+            background: #444; /* Default track color */
+            border-radius: 5px;
+            outline: none;
+            margin: 10px 0; /* Space above/below */
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
+            transition: background 0.3s ease;
+        }
+
+        /* Thumb (handle) styling for Webkit browsers (Chrome, Safari) */
+        .form-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px; /* Size of the thumb */
+            height: 25px; /* Size of the thumb */
+            border-radius: 50%; /* Make it circular */
+            background: #00ACC1; /* Thumb color */
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+            margin-top: -8px; /* Center thumb vertically on track */
+            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+        /* Thumb (handle) styling for Firefox */
+        .form-group input[type="range"]::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #00ACC1;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+            border: none; /* Remove default border */
+            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+        /* Focus styles for the slider thumb */
+        .form-group input[type="range"]:focus::-webkit-slider-thumb {
+            box-shadow: 0 0 0 4px rgba(0, 172, 193, 0.4), 0 2px 8px rgba(0, 0, 0, 0.6);
+            transform: scale(1.1);
+        }
+        .form-group input[type="range"]:focus::-moz-range-thumb {
+            box-shadow: 0 0 0 4px rgba(0, 172, 193, 0.4), 0 2px 8px rgba(0, 0, 0, 0.6);
+            transform: scale(1.1);
+        }
+
+        /* Container for slider and its value */
+        .slider-group {
+            display: flex;
+            align-items: center;
+            gap: 10px; /* Space between slider and value display */
+        }
+
+        .slider-group input[type="range"] {
+            flex-grow: 1; /* Make slider take up available space */
+            margin: 0; /* Reset margin from general range styling */
+        }
+
+        .slider-value {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #B3E5FC;
+            min-width: 30px; /* Ensure space for two digits + /10 */
+            text-align: right;
+        }
+
 
         /* Button Styling - Modern Dynamic */
         button {
@@ -194,7 +263,7 @@
         button:hover {
             background-color: #00838F;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 172, 193, 0.6);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6);
         }
 
         button:active {
@@ -459,7 +528,6 @@
             }
 
             .form-group input[type="text"],
-            .form-group input[type="number"],
             .form-group textarea {
                 padding: 12px 15px; /* Restore original input padding */
                 font-size: 1.1em;
@@ -569,41 +637,69 @@
                     <label for="friendName">Friend's Name:</label>
                     <input type="text" id="friendName" required>
                 </div>
+
                 <div class="form-group">
                     <label for="truthness">Truthfulness (0-10):</label>
-                    <input type="number" id="truthness" min="0" max="10" required>
+                    <div class="slider-group">
+                        <input type="range" id="truthness" min="0" max="10" value="0" step="1" required>
+                        <span id="truthness-value" class="slider-value">0/10</span>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="angriness">Angriness (0-10):</label>
-                    <input type="number" id="angriness" min="0" max="10" required>
+                    <div class="slider-group">
+                        <input type="range" id="angriness" min="0" max="10" value="0" step="1" required>
+                        <span id="angriness-value" class="slider-value">0/10</span>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="humor">Humor (0-10):</label>
-                    <input type="number" id="humor" min="0" max="10" required>
+                    <div class="slider-group">
+                        <input type="range" id="humor" min="0" max="10" value="0" step="1" required>
+                        <span id="humor-value" class="slider-value">0/10</span>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="empathy">Empathy (0-10):</label>
-                    <input type="number" id="empathy" min="0" max="10" required>
+                    <div class="slider-group">
+                        <input type="range" id="empathy" min="0" max="10" value="0" step="1" required>
+                        <span id="empathy-value" class="slider-value">0/10</span>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="optimism">Optimism (0-10):</label>
-                    <input type="number" id="optimism" min="0" max="10" required>
+                    <div class="slider-group">
+                        <input type="range" id="optimism" min="0" max="10" value="0" step="1" required>
+                        <span id="optimism-value" class="slider-value">0/10</span>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="creativity">Creativity (0-10):</label>
-                    <input type="number" id="creativity" min="0" max="10" required>
+                    <div class="slider-group">
+                        <input type="range" id="creativity" min="0" max="10" value="0" step="1" required>
+                        <span id="creativity-value" class="slider-value">0/10</span>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="socialScore">Social Score (0-10):</label>
-                    <input type="number" id="socialScore" min="0" max="10" required>
+                    <div class="slider-group">
+                        <input type="range" id="socialScore" min="0" max="10" value="0" step="1" required>
+                        <span id="socialScore-value" class="slider-value">0/10</span>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="calmness">Calmness (0-10):</label>
-                    <input type="number" id="calmness" min="0" max="10" required>
+                    <div class="slider-group">
+                        <input type="range" id="calmness" min="0" max="10" value="0" step="1" required>
+                        <span id="calmness-value" class="slider-value">0/10</span>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="punctuality">Punctuality (0-10):</label>
-                    <input type="number" id="punctuality" min="0" max="10" required>
+                    <div class="slider-group">
+                        <input type="range" id="punctuality" min="0" max="10" value="0" step="1" required>
+                        <span id="punctuality-value" class="slider-value">0/10</span>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="foodPreference">Food Preference (e.g., Vegetarian, Spicy, Sweets):</label>
@@ -636,15 +732,20 @@
         document.addEventListener('DOMContentLoaded', function() {
             const friendForm = document.getElementById('friend-form');
             const friendNameInput = document.getElementById('friendName');
-            const truthnessInput = document.getElementById('truthness');
-            const angrinessInput = document.getElementById('angriness');
-            const humorInput = document.getElementById('humor');
-            const empathyInput = document.getElementById('empathy');
-            const optimismInput = document.getElementById('optimism');
-            const creativityInput = document.getElementById('creativity');
-            const socialScoreInput = document.getElementById('socialScore');
-            const calmnessInput = document.getElementById('calmness');
-            const punctualityInput = document.getElementById('punctuality');
+
+            // Select all slider inputs and their corresponding value spans
+            const sliderInputs = [
+                { input: document.getElementById('truthness'), valueSpan: document.getElementById('truthness-value') },
+                { input: document.getElementById('angriness'), valueSpan: document.getElementById('angriness-value') },
+                { input: document.getElementById('humor'), valueSpan: document.getElementById('humor-value') },
+                { input: document.getElementById('empathy'), valueSpan: document.getElementById('empathy-value') },
+                { input: document.getElementById('optimism'), valueSpan: document.getElementById('optimism-value') },
+                { input: document.getElementById('creativity'), valueSpan: document.getElementById('creativity-value') },
+                { input: document.getElementById('socialScore'), valueSpan: document.getElementById('socialScore-value') },
+                { input: document.getElementById('calmness'), valueSpan: document.getElementById('calmness-value') },
+                { input: document.getElementById('punctuality'), valueSpan: document.getElementById('punctuality-value') }
+            ];
+
             const foodPreferenceInput = document.getElementById('foodPreference');
             const hobbiesInput = document.getElementById('hobbies');
             const notesInput = document.getElementById('notes');
@@ -654,6 +755,19 @@
 
             let currentFriendNameForEdit = null;
 
+            // Function to update the displayed value next to the slider
+            function updateSliderValueDisplay(sliderInput, valueSpan) {
+                valueSpan.textContent = `${sliderInput.value}/10`;
+            }
+
+            // Attach event listeners to all sliders
+            sliderInputs.forEach(item => {
+                item.input.addEventListener('input', () => updateSliderValueDisplay(item.input, item.valueSpan));
+                // Initialize display on load
+                updateSliderValueDisplay(item.input, item.valueSpan);
+            });
+
+
             const params = new URLSearchParams(window.location.search);
             const editFriendName = params.get('edit');
             if (editFriendName) {
@@ -662,15 +776,14 @@
                 if (friendToEdit) {
                     currentFriendNameForEdit = friendToEdit.name;
                     friendNameInput.value = friendToEdit.name;
-                    truthnessInput.value = friendToEdit.truthness;
-                    angrinessInput.value = friendToEdit.angriness;
-                    humorInput.value = friendToEdit.humor;
-                    empathyInput.value = friendToEdit.empathy || '';
-                    optimismInput.value = friendToEdit.optimism || '';
-                    creativityInput.value = friendToEdit.creativity || '';
-                    socialScoreInput.value = friendToEdit.socialScore || '';
-                    calmnessInput.value = friendToEdit.calmness || '';
-                    punctualityInput.value = friendToEdit.punctuality || '';
+
+                    // Set slider values and update their displays
+                    sliderInputs.forEach(item => {
+                        const attributeName = item.input.id; // e.g., 'truthness'
+                        item.input.value = friendToEdit[attributeName] || 0;
+                        updateSliderValueDisplay(item.input, item.valueSpan);
+                    });
+
                     foodPreferenceInput.value = friendToEdit.foodPreference || '';
                     hobbiesInput.value = friendToEdit.hobbies || '';
                     notesInput.value = friendToEdit.notes || '';
@@ -683,6 +796,8 @@
                     alert("Friend to edit not found. Starting a new entry.");
                     friendForm.reset();
                     friendNameInput.value = '';
+                    // Reset slider displays after form reset
+                    sliderInputs.forEach(item => updateSliderValueDisplay(item.input, item.valueSpan));
                 }
             } else {
                 formHeading.textContent = 'Add New Friend';
@@ -694,15 +809,15 @@
 
                 const friendData = {
                     name: friendNameInput.value.trim(),
-                    truthness: parseInt(truthnessInput.value) || 0,
-                    angriness: parseInt(angrinessInput.value) || 0,
-                    humor: parseInt(humorInput.value) || 0,
-                    empathy: parseInt(empathyInput.value) || 0,
-                    optimism: parseInt(optimismInput.value) || 0,
-                    creativity: parseInt(creativityInput.value) || 0,
-                    socialScore: parseInt(socialScoreInput.value) || 0,
-                    calmness: parseInt(calmnessInput.value) || 0,
-                    punctuality: parseInt(punctualityInput.value) || 0,
+                    truthness: parseInt(document.getElementById('truthness').value) || 0,
+                    angriness: parseInt(document.getElementById('angriness').value) || 0,
+                    humor: parseInt(document.getElementById('humor').value) || 0,
+                    empathy: parseInt(document.getElementById('empathy').value) || 0,
+                    optimism: parseInt(document.getElementById('optimism').value) || 0,
+                    creativity: parseInt(document.getElementById('creativity').value) || 0,
+                    socialScore: parseInt(document.getElementById('socialScore').value) || 0,
+                    calmness: parseInt(document.getElementById('calmness').value) || 0,
+                    punctuality: parseInt(document.getElementById('punctuality').value) || 0,
                     foodPreference: foodPreferenceInput.value.trim(),
                     hobbies: hobbiesInput.value.trim(),
                     notes: notesInput.value.trim()
@@ -744,6 +859,8 @@
                 formHeading.textContent = 'Add New Friend';
                 saveButton.textContent = 'Add Friend';
                 history.replaceState(null, '', location.pathname);
+                // Reset slider displays after form reset
+                sliderInputs.forEach(item => updateSliderValueDisplay(item.input, item.valueSpan));
             });
 
             clearFormBtn.addEventListener('click', function() {
@@ -753,6 +870,8 @@
                 saveButton.textContent = 'Add Friend';
                 currentFriendNameForEdit = null;
                 history.replaceState(null, '', location.pathname);
+                // Reset slider displays after form reset
+                sliderInputs.forEach(item => updateSliderValueDisplay(item.input, item.valueSpan));
             });
         });
     </script>
