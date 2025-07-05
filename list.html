@@ -155,6 +155,7 @@
         }
 
         .form-group input[type="text"],
+        .form-group input[type="date"], /* Added date input type */
         .form-group textarea {
             padding: 10px 12px; /* Reduced padding */
             border: 1px solid #444;
@@ -169,6 +170,7 @@
         }
 
         .form-group input[type="text"]:focus,
+        .form-group input[type="date"]:focus, /* Added date input type */
         .form-group textarea:focus {
             outline: none;
             border-color: #00ACC1;
@@ -923,6 +925,7 @@
             }
 
             .form-group input[type="text"],
+            .form-group input[type="date"], /* Added date input type */
             .form-group textarea {
                 padding: 12px 15px; /* Restore original input padding */
                 font-size: 1.1em;
@@ -1036,6 +1039,8 @@
                 <select id="sortSelect">
                     <option value="name-asc">Name (A-Z)</option>
                     <option value="name-desc">Name (Z-A)</option>
+                    <option value="birthday-asc">Birthday (Earliest)</option>
+                    <option value="birthday-desc">Birthday (Latest)</option>
                     <option value="truthness-desc">Truthfulness (High to Low)</option>
                     <option value="truthness-asc">Truthfulness (Low to High)</option>
                     <option value="angriness-desc">Angriness (High to Low)</option>
@@ -1181,6 +1186,19 @@
             }
         }
 
+        // Helper function to format date for display
+        function formatDateForDisplay(dateString) {
+            if (!dateString) return 'N/A';
+            try {
+                const date = new Date(dateString + 'T00:00:00'); // Add T00:00:00 to avoid timezone issues for simple dates
+                if (isNaN(date.getTime())) return 'N/A'; // Check for invalid date
+                return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            } catch (e) {
+                return 'N/A';
+            }
+        }
+
+
         function createFriendCard(friend) {
             const card = document.createElement('div');
             card.classList.add('friend-card');
@@ -1197,6 +1215,7 @@
             card.innerHTML = `
                 <h3>${friend.name}</h3>
                 <button class="delete-card-button" title="Delete Friend"><i class="fas fa-trash-alt"></i></button>
+                <p class="text-param"><strong>Birthday:</strong> ${formatDateForDisplay(friend.birthday)}</p>
                 <p><strong>Truthfulness:</strong> ${friend.truthness}/10</p>
                 <div class="progress-container"><div class="progress-bar ${getProgressBarClass(friend.truthness)}" style="width: ${friend.truthness * 10}%;"></div></div>
                 <p><strong>Angriness:</strong> ${friend.angriness}/10</p>
@@ -1256,7 +1275,7 @@
             const clearFiltersBtn = document.getElementById('clearFiltersBtn');
 
             const numericalParams = ['truthness', 'angriness', 'humor', 'empathy', 'optimism', 'creativity', 'socialScore', 'calmness', 'punctuality'];
-            const textParams = ['foodPreference', 'hobbies', 'notes'];
+            const textParams = ['foodPreference', 'hobbies', 'notes']; // 'birthday' will be treated differently for filtering/searching
 
             const filterInputs = {};
             numericalParams.forEach(param => {
@@ -1307,12 +1326,13 @@
                 }
 
                 let filteredAndSearchedFriends = allFriends.filter(friend => {
-                    // 1. Apply Search Filter
-                    const matchesSearch = 
+                    // 1. Apply Search Filter (now includes birthday)
+                    const matchesSearch =
                         friend.name.toLowerCase().includes(searchTerm) ||
                         (friend.notes && friend.notes.toLowerCase().includes(searchTerm)) ||
                         (friend.foodPreference && friend.foodPreference.toLowerCase().includes(searchTerm)) ||
-                        (friend.hobbies && friend.hobbies.toLowerCase().includes(searchTerm));
+                        (friend.hobbies && friend.hobbies.toLowerCase().includes(searchTerm)) ||
+                        (friend.birthday && formatDateForDisplay(friend.birthday).toLowerCase().includes(searchTerm)); // Search birthday display format
 
                     if (!matchesSearch) return false; // If doesn't match search, exclude immediately
 
@@ -1321,7 +1341,7 @@
                         const minVal = parseFloat(filterInputs[`${param}Min`].value);
                         const maxVal = parseFloat(filterInputs[`${param}Max`].value);
                         // Use a default of 0 if parameter is missing, or ensure it's a number
-                        const friendValue = parseFloat(friend[param] || 0); 
+                        const friendValue = parseFloat(friend[param] || 0);
 
                         if (!isNaN(minVal) && friendValue < minVal) {
                             return false;
@@ -1334,7 +1354,7 @@
                     // 3. Apply Text Parameter Filters
                     for (const param of textParams) {
                         const filterText = filterInputs[`${param}Filter`].value.toLowerCase().trim();
-                        const friendText = friend[param] ? String(friend[param]).toLowerCase() : ''; 
+                        let friendText = friend[param] ? String(friend[param]).toLowerCase() : '';
 
                         if (filterText && !friendText.includes(filterText)) {
                             return false;
@@ -1356,9 +1376,20 @@
                         } else {
                             return valB.localeCompare(valA);
                         }
-                    } else { // Numerical parameters
+                    } else if (sortKey === 'birthday') {
+                         // Treat 'N/A' or empty strings as effectively last for sorting purposes
+                        valA = a.birthday ? new Date(a.birthday).getTime() : (sortOrder === 'asc' ? Infinity : -Infinity);
+                        valB = b.birthday ? new Date(b.birthday).getTime() : (sortOrder === 'asc' ? Infinity : -Infinity);
+
+                        if (sortOrder === 'asc') {
+                            return valA - valB;
+                        } else {
+                            return valB - valA;
+                        }
+                    }
+                    else { // Numerical parameters
                         // Use 0 if the parameter is undefined/null for consistent sorting
-                        valA = parseFloat(a[sortKey] || 0); 
+                        valA = parseFloat(a[sortKey] || 0);
                         valB = parseFloat(b[sortKey] || 0);
 
                         if (sortOrder === 'asc') {
@@ -1404,7 +1435,7 @@
 
             function displayComparison(friend1, friend2) {
                 if (!friend1 || !friend2) {
-                    alert("Please select two different friends to compare.");
+                    alert("Please select two friends to compare.");
                     return;
                 }
 
@@ -1424,6 +1455,7 @@
                                 <tbody>`;
 
                 const allParams = [
+                    { key: 'birthday', label: 'Birthday', type: 'date' },
                     { key: 'truthness', label: 'Truthfulness', type: 'numerical' },
                     { key: 'angriness', label: 'Angriness', type: 'numerical' },
                     { key: 'humor', label: 'Humor', type: 'numerical' },
@@ -1439,12 +1471,15 @@
                 ];
 
                 allParams.forEach(param => {
-                    const val1 = friend1[param.key] !== undefined ? friend1[param.key] : 'N/A';
-                    const val2 = friend2[param.key] !== undefined ? friend2[param.key] : 'N/A';
+                    let val1, val2;
+
+                    val1 = friend1[param.key] !== undefined ? friend1[param.key] : 'N/A';
+                    val2 = friend2[param.key] !== undefined ? friend2[param.key] : 'N/A';
+
 
                     html += `<tr>
                                 <td class="param-label">${param.label}:</td>`;
-                    
+
                     if (param.type === 'numerical') {
                         html += `<td class="friend-value-column">
                                     ${val1}/10
@@ -1454,7 +1489,11 @@
                                     ${val2}/10
                                     <div class="progress-container"><div class="progress-bar ${getProgressBarClass(val2)}" style="width: ${val2 * 10}%;"></div></div>
                                 </td>`;
-                    } else { // Text parameters
+                    } else if (param.type === 'date') {
+                        html += `<td class="friend-value-column text-param-value">${formatDateForDisplay(val1)}</td>
+                                <td class="friend-value-column text-param-value">${formatDateForDisplay(val2)}</td>`;
+                    }
+                    else { // Text parameters
                         html += `<td class="friend-value-column text-param-value">${val1 || 'N/A'}</td>
                                 <td class="friend-value-column text-param-value">${val2 || 'N/A'}</td>`;
                     }
@@ -1560,7 +1599,7 @@
 
                         // Optional: Ask user if they want to merge or overwrite
                         const overwrite = confirm("Do you want to REPLACE your current friend data with the imported data? (Click Cancel to MERGE data)");
-                        
+
                         let finalFriends = [];
                         if (overwrite) {
                             finalFriends = importedFriends;
@@ -1573,17 +1612,20 @@
                                 if (existingIndex > -1) {
                                     currentFriends[existingIndex] = importedFriend; // Update existing
                                 } else {
+                                    // Ensure all new properties are handled during merge for older imports
+                                    if (importedFriend.birthday === undefined) importedFriend.birthday = '';
+
                                     currentFriends.push(importedFriend); // Add new
                                 }
                             });
                             finalFriends = currentFriends;
                             alert("FriendForge data merged successfully!");
                         }
-                        
+
                         saveFriends(finalFriends);
                         renderFriendsList(); // Re-render the list with new data
                         populateFriendSelects(); // Re-populate comparison dropdowns after import
-                        
+
                     } catch (error) {
                         console.error("Error importing data:", error);
                         alert(`Failed to import data: ${error.message || "Invalid JSON file or data format."}\nPlease ensure the file is a valid FriendForge export.`);
