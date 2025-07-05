@@ -485,6 +485,155 @@
             display: none;
         }
 
+        /* --- Filter Controls Styles --- */
+        .filter-controls-container {
+            position: relative;
+            display: flex;
+            flex-direction: column; /* Stack button and panel on small screens */
+            align-items: center; /* Center the button */
+            margin-bottom: 25px;
+            z-index: 90;
+        }
+
+        #filterButton {
+            padding: 10px 20px;
+            background-color: #00897B; /* Teal color for filter */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.05em;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 137, 123, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #filterButton i {
+            margin-right: 8px;
+        }
+        #filterButton:hover {
+            background-color: #00695C;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 137, 123, 0.6);
+        }
+
+        .filter-dropdown-menu {
+            position: absolute;
+            top: calc(100% + 10px);
+            background-color: #2F2F2F;
+            border: 1px solid rgba(100, 100, 100, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            min-width: 280px; /* Wider to accommodate inputs */
+            max-width: 90%; /* Max width for responsiveness */
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            padding: 15px;
+            animation: fadeInScale 0.2s ease-out forwards;
+            transform-origin: top center;
+        }
+
+        .filter-dropdown-menu.visible {
+            display: flex;
+        }
+
+        .filter-section {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed rgba(100, 100, 100, 0.5);
+        }
+        .filter-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .filter-section h4 {
+            color: #B2DFDB;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            text-align: center;
+        }
+
+        .filter-param-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            gap: 10px;
+        }
+        .filter-param-group label {
+            flex-basis: 100px; /* Fixed width for labels */
+            color: #E0E0E0;
+            font-size: 0.95em;
+        }
+        .filter-param-group input[type="number"],
+        .filter-param-group input[type="text"] {
+            flex-grow: 1; /* Allow inputs to take remaining space */
+            padding: 8px 10px;
+            border: 1px solid #444;
+            border-radius: 6px;
+            background-color: #333;
+            color: #E0E0E0;
+            font-size: 0.9em;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .filter-param-group input[type="number"]:focus,
+        .filter-param-group input[type="text"]:focus {
+            outline: none;
+            border-color: #00897B;
+            box-shadow: 0 0 0 3px rgba(0, 137, 123, 0.3), inset 0 1px 2px rgba(0,0,0,0.5);
+        }
+        .filter-param-group input[type="number"]::placeholder,
+        .filter-param-group input[type="text"]::placeholder {
+            color: #999;
+        }
+
+        .filter-actions {
+            display: flex;
+            justify-content: space-around;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .filter-action-btn {
+            flex-grow: 1;
+            padding: 10px 15px;
+            font-size: 0.95em;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        .filter-action-btn.clear-btn {
+            background-color: #616161; /* Grey for clear button */
+            box-shadow: 0 3px 10px rgba(97, 97, 97, 0.4);
+        }
+        .filter-action-btn.clear-btn:hover {
+            background-color: #424242;
+            box-shadow: 0 5px 15px rgba(97, 97, 97, 0.6);
+        }
+        /* Reusing general button styling for apply button */
+        #applyFiltersBtn {
+            background-color: #00ACC1; /* Blue from general button style */
+            box-shadow: 0 3px 10px rgba(0, 172, 193, 0.4);
+        }
+        #applyFiltersBtn:hover {
+            background-color: #00838F;
+            box-shadow: 0 5px 15px rgba(0, 172, 193, 0.6);
+        }
+
+        /* Optional: Animation for dropdown */
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(-5px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
 
         /* --- Media Queries for Landscape / Larger Screens --- */
 
@@ -531,6 +680,17 @@
             .data-management-buttons button {
                 width: auto; /* Allow buttons to size content */
                 min-width: 150px;
+            }
+            /* Filter controls adjustment */
+            .filter-controls-container {
+                flex-direction: row; /* Button and panel inline */
+                justify-content: center;
+            }
+            .filter-dropdown-menu {
+                left: auto; /* Revert left/right centering */
+                right: auto;
+                transform: translateX(-50%); /* Center horizontally relative to parent */
+                left: 50%; /* Position at 50% for centering */
             }
         }
 
@@ -658,11 +818,6 @@
                 border-radius: 25px; /* Restore original border-radius */
                 font-size: 1.1em; /* Restore original font size */
             }
-
-            .data-management-buttons {
-                flex-direction: row; /* Buttons side-by-side */
-                justify-content: center;
-            }
         }
 
         /* Specific adjustment for navigation in very wide screens to prevent stretching */
@@ -690,6 +845,79 @@
             <h2>Your Friends</h2>
             <div class="search-container">
                 <input type="text" id="searchBar" placeholder="Search friends...">
+            </div>
+
+            <div class="filter-controls-container">
+                <button id="filterButton"><i class="fas fa-filter"></i> Filter Friends</button>
+                <div id="filterPanel" class="filter-dropdown-menu">
+                    <div class="filter-section">
+                        <h4>Parameter Ranges (0-10)</h4>
+                        <div class="filter-param-group">
+                            <label for="truthnessMin">Truthfulness:</label>
+                            <input type="number" id="truthnessMin" min="0" max="10" placeholder="Min">
+                            <input type="number" id="truthnessMax" min="0" max="10" placeholder="Max">
+                        </div>
+                        <div class="filter-param-group">
+                            <label for="angrinessMin">Angriness:</label>
+                            <input type="number" id="angrinessMin" min="0" max="10" placeholder="Min">
+                            <input type="number" id="angrinessMax" min="0" max="10" placeholder="Max">
+                        </div>
+                        <div class="filter-param-group">
+                            <label for="humorMin">Humor:</label>
+                            <input type="number" id="humorMin" min="0" max="10" placeholder="Min">
+                            <input type="number" id="humorMax" min="0" max="10" placeholder="Max">
+                        </div>
+                        <div class="filter-param-group">
+                            <label for="empathyMin">Empathy:</label>
+                            <input type="number" id="empathyMin" min="0" max="10" placeholder="Min">
+                            <input type="number" id="empathyMax" min="0" max="10" placeholder="Max">
+                        </div>
+                        <div class="filter-param-group">
+                            <label for="optimismMin">Optimism:</label>
+                            <input type="number" id="optimismMin" min="0" max="10" placeholder="Min">
+                            <input type="number" id="optimismMax" min="0" max="10" placeholder="Max">
+                        </div>
+                        <div class="filter-param-group">
+                            <label for="creativityMin">Creativity:</label>
+                            <input type="number" id="creativityMin" min="0" max="10" placeholder="Min">
+                            <input type="number" id="creativityMax" min="0" max="10" placeholder="Max">
+                        </div>
+                        <div class="filter-param-group">
+                            <label for="socialScoreMin">Social Score:</label>
+                            <input type="number" id="socialScoreMin" min="0" max="10" placeholder="Min">
+                            <input type="number" id="socialScoreMax" min="0" max="10" placeholder="Max">
+                        </div>
+                        <div class="filter-param-group">
+                            <label for="calmnessMin">Calmness:</label>
+                            <input type="number" id="calmnessMin" min="0" max="10" placeholder="Min">
+                            <input type="number" id="calmnessMax" min="0" max="10" placeholder="Max">
+                        </div>
+                        <div class="filter-param-group">
+                            <label for="punctualityMin">Punctuality:</label>
+                            <input type="number" id="punctualityMin" min="0" max="10" placeholder="Min">
+                            <input type="number" id="punctualityMax" min="0" max="10" placeholder="Max">
+                        </div>
+                    </div>
+                    <div class="filter-section">
+                        <h4>Keywords</h4>
+                        <div class="filter-param-group">
+                            <label for="foodPreferenceFilter">Food Preference:</label>
+                            <input type="text" id="foodPreferenceFilter" placeholder="e.g., pizza, vegan">
+                        </div>
+                        <div class="filter-param-group">
+                            <label for="hobbiesFilter">Hobbies:</label>
+                            <input type="text" id="hobbiesFilter" placeholder="e.g., hiking, reading">
+                        </div>
+                        <div class="filter-param-group">
+                            <label for="notesFilter">Notes:</label>
+                            <input type="text" id="notesFilter" placeholder="e.g., colleague, birthday">
+                        </div>
+                    </div>
+                    <div class="filter-actions">
+                        <button id="applyFiltersBtn" class="filter-action-btn"><i class="fas fa-check-circle"></i> Apply Filters</button>
+                        <button id="clearFiltersBtn" class="filter-action-btn clear-btn"><i class="fas fa-times-circle"></i> Clear Filters</button>
+                    </div>
+                </div>
             </div>
 
             <div class="data-management-buttons">
@@ -783,56 +1011,133 @@
             }
         }
 
-        function renderFriendsList() {
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- DOM Elements ---
             const friendsListContainer = document.getElementById('friendsList');
             const noFriendsMessage = document.getElementById('noFriendsMessage');
-            const friends = getFriends();
-            const searchTerm = document.getElementById('searchBar').value.toLowerCase();
+            const searchBar = document.getElementById('searchBar');
+            const exportDataBtn = document.getElementById('exportData');
+            const importFileInput = document.getElementById('importFileInput');
+            const importDataButton = document.getElementById('importDataButton');
 
-            friendsListContainer.innerHTML = ''; // Clear existing cards
+            // --- Filter Elements ---
+            const filterButton = document.getElementById('filterButton');
+            const filterPanel = document.getElementById('filterPanel');
+            const applyFiltersBtn = document.getElementById('applyFiltersBtn');
+            const clearFiltersBtn = document.getElementById('clearFiltersBtn');
 
-            if (friends.length === 0) {
-                noFriendsMessage.style.display = 'block';
-                return;
-            } else {
-                noFriendsMessage.style.display = 'none';
-            }
+            const numericalParams = ['truthness', 'angriness', 'humor', 'empathy', 'optimism', 'creativity', 'socialScore', 'calmness', 'punctuality'];
+            const textParams = ['foodPreference', 'hobbies', 'notes'];
 
-            const filteredFriends = friends.filter(friend => {
-                // Search by name
-                if (friend.name.toLowerCase().includes(searchTerm)) return true;
-
-                // Search by notes, food, hobbies (if they exist)
-                if (friend.notes && friend.notes.toLowerCase().includes(searchTerm)) return true;
-                if (friend.foodPreference && friend.foodPreference.toLowerCase().includes(searchTerm)) return true;
-                if (friend.hobbies && friend.hobbies.toLowerCase().includes(searchTerm)) return true;
-
-                return false;
+            const filterInputs = {};
+            numericalParams.forEach(param => {
+                filterInputs[`${param}Min`] = document.getElementById(`${param}Min`);
+                filterInputs[`${param}Max`] = document.getElementById(`${param}Max`);
+            });
+            textParams.forEach(param => {
+                filterInputs[`${param}Filter`] = document.getElementById(`${param}Filter`);
             });
 
-            if (filteredFriends.length === 0 && searchTerm !== "") {
-                friendsListContainer.innerHTML = `<p style="text-align: center; color: #999;">No friends found matching "${searchTerm}".</p>`;
-                return;
-            } else if (filteredFriends.length === 0) {
-                // This case should ideally be caught by the initial friends.length === 0 check
-                noFriendsMessage.style.display = 'block';
-                return;
+            // --- Filter Panel Toggle Logic ---
+            filterButton.addEventListener('click', function(event) {
+                event.stopPropagation(); // Prevent document click from immediately closing it
+                filterPanel.classList.toggle('visible');
+            });
+
+            // Close panel if clicked outside
+            document.addEventListener('click', function(event) {
+                if (!filterPanel.contains(event.target) && !filterButton.contains(event.target)) {
+                    filterPanel.classList.remove('visible');
+                }
+            });
+
+            // --- Filter and Search Logic for Render ---
+            function renderFriendsList() {
+                const allFriends = getFriends(); // Get all friends
+                const searchTerm = searchBar.value.toLowerCase();
+
+                friendsListContainer.innerHTML = ''; // Clear existing cards
+
+                if (allFriends.length === 0) {
+                    noFriendsMessage.style.display = 'block';
+                    return;
+                } else {
+                    noFriendsMessage.style.display = 'none';
+                }
+
+                let filteredAndSearchedFriends = allFriends.filter(friend => {
+                    // 1. Apply Search Filter
+                    const matchesSearch = 
+                        friend.name.toLowerCase().includes(searchTerm) ||
+                        (friend.notes && friend.notes.toLowerCase().includes(searchTerm)) ||
+                        (friend.foodPreference && friend.foodPreference.toLowerCase().includes(searchTerm)) ||
+                        (friend.hobbies && friend.hobbies.toLowerCase().includes(searchTerm));
+
+                    if (!matchesSearch) return false; // If doesn't match search, exclude immediately
+
+                    // 2. Apply Numerical Parameter Filters
+                    for (const param of numericalParams) {
+                        const minVal = parseFloat(filterInputs[`${param}Min`].value);
+                        const maxVal = parseFloat(filterInputs[`${param}Max`].value);
+                        const friendValue = parseFloat(friend[param]); // Ensure friend[param] is a number
+
+                        if (!isNaN(minVal) && friendValue < minVal) {
+                            return false;
+                        }
+                        if (!isNaN(maxVal) && friendValue > maxVal) {
+                            return false;
+                        }
+                    }
+
+                    // 3. Apply Text Parameter Filters
+                    for (const param of textParams) {
+                        const filterText = filterInputs[`${param}Filter`].value.toLowerCase().trim();
+                        const friendText = friend[param] ? String(friend[param]).toLowerCase() : ''; // Ensure friend[param] is a string
+
+                        if (filterText && !friendText.includes(filterText)) {
+                            return false;
+                        }
+                    }
+
+                    return true; // Friend matches all search and filter criteria
+                });
+
+                if (filteredAndSearchedFriends.length === 0) {
+                    friendsListContainer.innerHTML = `<p style="text-align: center; color: #999;">No friends found matching your search and filter criteria.</p>`;
+                    return;
+                }
+
+                filteredAndSearchedFriends.forEach(friend => {
+                    friendsListContainer.appendChild(createFriendCard(friend));
+                });
             }
 
-
-            filteredFriends.forEach(friend => {
-                friendsListContainer.appendChild(createFriendCard(friend));
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
+            // Initial render
             renderFriendsList();
 
-            const searchBar = document.getElementById('searchBar');
+            // Event Listeners for Search and Filter
             searchBar.addEventListener('input', renderFriendsList);
+            applyFiltersBtn.addEventListener('click', function() {
+                renderFriendsList(); // Re-render with current filter settings
+                filterPanel.classList.remove('visible'); // Hide panel after applying
+            });
+
+            // Clear Filters
+            clearFiltersBtn.addEventListener('click', function() {
+                // Reset all numerical inputs
+                numericalParams.forEach(param => {
+                    filterInputs[`${param}Min`].value = '';
+                    filterInputs[`${param}Max`].value = '';
+                });
+                // Reset all text inputs
+                textParams.forEach(param => {
+                    filterInputs[`${param}Filter`].value = '';
+                });
+                renderFriendsList(); // Re-render with cleared filters
+                filterPanel.classList.remove('visible'); // Hide panel after clearing
+            });
 
             // --- Export Data Feature ---
-            const exportDataBtn = document.getElementById('exportData');
             exportDataBtn.addEventListener('click', function() {
                 const friends = getFriends();
                 if (friends.length === 0) {
@@ -854,9 +1159,6 @@
             });
 
             // --- Import Data Feature ---
-            const importFileInput = document.getElementById('importFileInput');
-            const importDataButton = document.getElementById('importDataButton');
-
             // Trigger file input click when import button is clicked
             importDataButton.addEventListener('click', function() {
                 importFileInput.click();
