@@ -548,7 +548,8 @@
             font-size: 0.95em;
         }
         .filter-param-group input[type="number"],
-        .filter-param-group input[type="text"] {
+        .filter-param-group input[type="text"],
+        .filter-param-group select { /* Added select for filters */
             flex-grow: 1; /* Allow inputs to take remaining space */
             padding: 8px 10px;
             border: 1px solid #444;
@@ -559,8 +560,21 @@
             box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
             transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
+        /* Custom arrow for select dropdowns in filter */
+        .filter-param-group select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg fill="%23E0E0E0" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            background-size: 20px;
+            cursor: pointer;
+        }
+
         .filter-param-group input[type="number"]:focus,
-        .filter-param-group input[type="text"]:focus {
+        .filter-param-group input[type="text"]:focus,
+        .filter-param-group select:focus { /* Added select for filters */
             outline: none;
             border-color: #00897B;
             box-shadow: 0 0 0 3px rgba(0, 137, 123, 0.3), inset 0 1px 2px rgba(0,0,0,0.5);
@@ -1120,7 +1134,7 @@
                     <option value="name-desc">Name (Z-A)</option>
                     <option value="birthday-asc">Birthday (Earliest)</option>
                     <option value="birthday-desc">Birthday (Latest)</option>
-                    <option value="truthness-desc">Truthfulness (High to Low)</option>
+                    <option value="relationshipType-asc">Relationship Type (A-Z)</option> <option value="relationshipType-desc">Relationship Type (Z-A)</option> <option value="truthness-desc">Truthfulness (High to Low)</option>
                     <option value="truthness-asc">Truthfulness (Low to High)</option>
                     <option value="angriness-desc">Angriness (High to Low)</option>
                     <option value="angriness-asc">Angriness (Low to High)</option>
@@ -1208,6 +1222,21 @@
                             <div class="filter-param-group">
                                 <label for="notesFilter">Notes:</label>
                                 <input type="text" id="notesFilter" placeholder="e.g., colleague, birthday">
+                            </div>
+                            <div class="filter-param-group">
+                                <label for="relationshipTypeFilter">Relationship Type:</label>
+                                <select id="relationshipTypeFilter">
+                                    <option value="">All Types</option>
+                                    <option value="Close Friend">Close Friend</option>
+                                    <option value="Friend">Friend</option>
+                                    <option value="Acquaintance">Acquaintance</option>
+                                    <option value="Family">Family</option>
+                                    <option value="Work Colleague">Work Colleague</option>
+                                    <option value="Neighbor">Neighbor</option>
+                                    <option value="Mentor">Mentor</option>
+                                    <option value="Online Friend">Online Friend</option>
+                                    <option value="Other">Other</option>
+                                </select>
                             </div>
                         </div>
                         <div class="filter-actions">
@@ -1357,11 +1386,14 @@
                 }
             });
 
+            // Ensure relationshipType exists, default to 'N/A' if old entry
+            const displayRelationshipType = friend.relationshipType || 'N/A';
+
             card.innerHTML = `
                 <h3>${friend.name} ${birthdayIcon}</h3>
                 <button class="delete-card-button" title="Delete Friend"><i class="fas fa-trash-alt"></i></button>
                 <p class="text-param"><strong>Birthday:</strong> ${formatDateForDisplay(friend.birthday)}</p>
-                <p><strong>Truthfulness:</strong> ${friend.truthness}/10</p>
+                <p class="text-param"><strong>Relationship:</strong> ${displayRelationshipType}</p> <p><strong>Truthfulness:</strong> ${friend.truthness}/10</p>
                 <div class="progress-container"><div class="progress-bar ${getProgressBarClass(friend.truthness)}" style="width: ${friend.truthness * 10}%;"></div></div>
                 <p><strong>Angriness:</strong> ${friend.angriness}/10</p>
                 <div class="progress-container"><div class="progress-bar ${getProgressBarClass(friend.angriness)}" style="width: ${friend.angriness * 10}%;"></div></div>
@@ -1424,6 +1456,7 @@
 
             const numericalParams = ['truthness', 'angriness', 'humor', 'empathy', 'optimism', 'creativity', 'socialScore', 'calmness', 'punctuality'];
             const textParams = ['foodPreference', 'hobbies', 'notes'];
+            const singleSelectParams = ['relationshipType']; // NEW: For single select filters
 
             const filterInputs = {};
             numericalParams.forEach(param => {
@@ -1433,6 +1466,10 @@
             textParams.forEach(param => {
                 filterInputs[`${param}Filter`] = document.getElementById(`${param}Filter`);
             });
+            singleSelectParams.forEach(param => { // NEW: Get reference for relationshipType filter
+                filterInputs[`${param}Filter`] = document.getElementById(`${param}Filter`);
+            });
+
 
             // --- Sorting Elements ---
             const sortSelect = document.getElementById('sortSelect');
@@ -1482,13 +1519,14 @@
                 let friendsWithUpcomingBirthday = [];
 
                 let filteredAndSearchedFriends = allFriends.filter(friend => {
-                    // 1. Apply Search Filter (now includes birthday)
+                    // 1. Apply Search Filter (now includes birthday and relationshipType)
                     const matchesSearch =
                         friend.name.toLowerCase().includes(searchTerm) ||
                         (friend.notes && friend.notes.toLowerCase().includes(searchTerm)) ||
                         (friend.foodPreference && friend.foodPreference.toLowerCase().includes(searchTerm)) ||
                         (friend.hobbies && friend.hobbies.toLowerCase().includes(searchTerm)) ||
-                        (friend.birthday && formatDateForDisplay(friend.birthday).toLowerCase().includes(searchTerm)); // Search birthday display format
+                        (friend.birthday && formatDateForDisplay(friend.birthday).toLowerCase().includes(searchTerm)) || // Search birthday display format
+                        (friend.relationshipType && friend.relationshipType.toLowerCase().includes(searchTerm)); // NEW: Search relationship type
 
                     if (!matchesSearch) return false; // If doesn't match search, exclude immediately
 
@@ -1517,10 +1555,21 @@
                         }
                     }
 
+                    // 4. NEW: Apply Single Select Parameter Filters (e.g., relationshipType)
+                    for (const param of singleSelectParams) {
+                        const filterValue = filterInputs[`${param}Filter`].value;
+                        // For old entries, relationshipType might be undefined. Treat as '' for filter comparison.
+                        const friendValue = friend[param] || '';
+
+                        if (filterValue && friendValue !== filterValue) {
+                            return false;
+                        }
+                    }
+
                     return true; // Friend matches all search and filter criteria
                 });
 
-                // 4. Apply Sorting
+                // 5. Apply Sorting
                 filteredAndSearchedFriends.sort((a, b) => {
                     let valA, valB;
 
@@ -1541,6 +1590,15 @@
                             return valA - valB;
                         } else {
                             return valB - valA;
+                        }
+                    } else if (sortKey === 'relationshipType') { // NEW SORT LOGIC
+                        // Treat undefined/empty as "Other" or last for consistent sorting
+                        valA = (a.relationshipType || 'Other').toLowerCase();
+                        valB = (b.relationshipType || 'Other').toLowerCase();
+                        if (sortOrder === 'asc') {
+                            return valA.localeCompare(valB);
+                        } else {
+                            return valB.localeCompare(valA);
                         }
                     }
                     else { // Numerical parameters
@@ -1642,6 +1700,7 @@
 
                 const allParams = [
                     { key: 'birthday', label: 'Birthday', type: 'date' },
+                    { key: 'relationshipType', label: 'Relationship', type: 'text' }, // NEW: Added to comparison
                     { key: 'truthness', label: 'Truthfulness', type: 'numerical' },
                     { key: 'angriness', label: 'Angriness', type: 'numerical' },
                     { key: 'humor', label: 'Humor', type: 'numerical' },
@@ -1659,8 +1718,9 @@
                 allParams.forEach(param => {
                     let val1, val2;
 
-                    val1 = friend1[param.key] !== undefined ? friend1[param.key] : 'N/A';
-                    val2 = friend2[param.key] !== undefined ? friend2[param.key] : 'N/A';
+                    // Ensure properties exist, default to 'N/A' or appropriate for display
+                    val1 = friend1[param.key] !== undefined && friend1[param.key] !== '' ? friend1[param.key] : 'N/A';
+                    val2 = friend2[param.key] !== undefined && friend2[param.key] !== '' ? friend2[param.key] : 'N/A';
 
 
                     html += `<tr>
@@ -1679,9 +1739,9 @@
                         html += `<td class="friend-value-column text-param-value">${formatDateForDisplay(val1)}</td>
                                 <td class="friend-value-column text-param-value">${formatDateForDisplay(val2)}</td>`;
                     }
-                    else { // Text parameters
-                        html += `<td class="friend-value-column text-param-value">${val1 || 'N/A'}</td>
-                                <td class="friend-value-column text-param-value">${val2 || 'N/A'}</td>`;
+                    else { // Text parameters (including relationshipType now)
+                        html += `<td class="friend-value-column text-param-value">${val1}</td>
+                                <td class="friend-value-column text-param-value">${val2}</td>`;
                     }
                     html += `</tr>`;
                 });
@@ -1711,6 +1771,7 @@
             // Event Listeners for Search, Filter, and Sort
             searchBar.addEventListener('input', renderFriendsList);
             sortSelect.addEventListener('change', renderFriendsList); // Added listener for sort dropdown
+            // No need to add event listeners directly to filter inputs; they are handled by applyFiltersBtn
 
             applyFiltersBtn.addEventListener('click', function() {
                 renderFriendsList(); // Re-render with current filter settings
@@ -1728,6 +1789,11 @@
                 textParams.forEach(param => {
                     filterInputs[`${param}Filter`].value = '';
                 });
+                // NEW: Reset all single-select inputs
+                singleSelectParams.forEach(param => {
+                    filterInputs[`${param}Filter`].value = '';
+                });
+
                 renderFriendsList(); // Re-render with cleared filters
                 toolsDropdownMenu.classList.remove('visible'); // Close tools panel after clearing filters
             });
@@ -1801,6 +1867,9 @@
                                 } else {
                                     // Ensure all new properties are handled during merge for older imports
                                     if (importedFriend.birthday === undefined) importedFriend.birthday = '';
+                                    // NEW: Handle relationshipType for old imports
+                                    if (importedFriend.relationshipType === undefined) importedFriend.relationshipType = '';
+
 
                                     currentFriends.push(importedFriend); // Add new
                                 }
