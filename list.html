@@ -516,59 +516,7 @@
         }
 
         /* --- Filter Controls Styles --- */
-        .filter-controls-container {
-            position: relative;
-            display: flex;
-            flex-direction: column; /* Stack button and panel on small screens */
-            align-items: center; /* Center the button */
-            margin-bottom: 25px;
-            z-index: 90;
-        }
-
-        #filterButton {
-            padding: 10px 20px;
-            background-color: #00897B; /* Teal color for filter */
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1.05em;
-            font-weight: bold;
-            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-            box-shadow: 0 3px 10px rgba(0, 137, 123, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        #filterButton i {
-            margin-right: 8px;
-        }
-        #filterButton:hover {
-            background-color: #00695C;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 137, 123, 0.6);
-        }
-
-        .filter-dropdown-menu {
-            position: absolute;
-            top: calc(100% + 10px);
-            background-color: #2F2F2F;
-            border: 1px solid rgba(100, 100, 100, 0.8);
-            border-radius: 10px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-            min-width: 280px; /* Wider to accommodate inputs */
-            max-width: 90%; /* Max width for responsiveness */
-            display: none; /* Hidden by default */
-            flex-direction: column;
-            padding: 15px;
-            animation: fadeInScale 0.2s ease-out forwards;
-            transform-origin: top center;
-        }
-
-        .filter-dropdown-menu.visible {
-            display: flex;
-        }
-
+        /* Removed .filter-controls-container positioning, it's now inside tools-dropdown-menu */
         .filter-section {
             margin-bottom: 20px;
             padding-bottom: 15px;
@@ -653,18 +601,6 @@
             box-shadow: 0 5px 15px rgba(0, 172, 193, 0.6);
         }
 
-        /* Optional: Animation for dropdown */
-        @keyframes fadeInScale {
-            from {
-                opacity: 0;
-                transform: scale(0.95) translateY(-5px);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
-        }
-
         /* --- Sorting Controls Styles --- */
         .sort-controls-container {
             display: flex;
@@ -707,22 +643,13 @@
         }
 
         /* --- Friend Comparison Styles --- */
-        .comparison-controls-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(70, 70, 70, 0.6);
-        }
-
+        /* Removed .comparison-controls-container positioning, now inside tools-dropdown-menu */
         .comparison-dropdowns {
             display: flex;
             flex-direction: column; /* Stack dropdowns on small screens */
             gap: 10px;
             width: 100%;
-            max-width: 500px;
+            max-width: 500px; /* Retained max-width for dropdowns if they get too wide */
         }
         .comparison-dropdowns select {
             padding: 10px 15px;
@@ -754,6 +681,7 @@
             max-width: 250px; /* Limit button width */
             background-color: #673AB7; /* Deep Purple for compare */
             box-shadow: 0 3px 10px rgba(103, 58, 183, 0.4);
+            margin-top: 15px; /* Added margin for separation */
         }
         #compareFriendsBtn:hover {
             background-color: #512DA8;
@@ -861,6 +789,94 @@
             font-style: italic;
         }
 
+        /* --- NEW: Tools Container and Dropdown Styles --- */
+        .tools-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 25px;
+            z-index: 90; /* Ensure tools dropdown is above other content */
+        }
+
+        #openToolsButton {
+            padding: 10px 20px;
+            background-color: #7B1FA2; /* A distinct purple for tools */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.05em;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 3px 10px rgba(123, 31, 162, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #openToolsButton i {
+            margin-right: 8px;
+        }
+        #openToolsButton:hover {
+            background-color: #6A1B9A;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(123, 31, 162, 0.6);
+        }
+
+        .tools-dropdown-menu {
+            position: absolute;
+            top: calc(100% + 10px); /* Position below the button */
+            background-color: #2F2F2F;
+            border: 1px solid rgba(100, 100, 100, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            min-width: 300px;
+            max-width: 95%; /* Max width for responsiveness */
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            padding: 15px;
+            animation: fadeInScale 0.2s ease-out forwards;
+            transform-origin: top center;
+            gap: 20px; /* Space between tool sections */
+        }
+
+        .tools-dropdown-menu.visible {
+            display: flex;
+        }
+
+        .tools-section {
+            padding-bottom: 15px;
+            border-bottom: 1px dashed rgba(100, 100, 100, 0.5);
+        }
+        .tools-section:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .tools-section h4 {
+            color: #BBDEFB; /* Light blue for section headers */
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* Optional: Animation for dropdown */
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(-5px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+
         /* --- Media Queries for Landscape / Larger Screens --- */
 
         /* For screens wider than 576px (e.g., larger phones in landscape, small tablets) */
@@ -899,31 +915,28 @@
                 padding: 20px 22px;
             }
 
-            .data-management-buttons {
-                flex-direction: row; /* Buttons side-by-side */
-                justify-content: center;
-            }
-            .data-management-buttons button {
-                width: auto; /* Allow buttons to size content */
-                min-width: 150px;
-            }
-            /* Filter controls adjustment */
-            .filter-controls-container {
+            /* Tools container positioning */
+            .tools-container {
                 flex-direction: row; /* Button and panel inline */
                 justify-content: center;
             }
-            .filter-dropdown-menu {
+            .tools-dropdown-menu {
                 left: auto; /* Revert left/right centering */
                 right: auto;
                 transform: translateX(-50%); /* Center horizontally relative to parent */
                 left: 50%; /* Position at 50% for centering */
+                max-width: 600px; /* Allow wider panel for more screen space */
             }
 
-            /* Comparison controls adjustment */
-            .comparison-controls-container {
-                flex-direction: row; /* Dropdowns and button inline */
-                flex-wrap: wrap; /* Allow wrapping if not enough space */
+            /* Filter, Comparison, and Data Mgmt buttons within tools-dropdown-menu */
+            .filter-actions, .data-management-buttons {
+                flex-direction: row; /* Buttons side-by-side */
                 justify-content: center;
+                gap: 10px; /* Smaller gap */
+            }
+            .filter-action-btn, .data-management-buttons button {
+                width: auto; /* Allow buttons to size content */
+                min-width: 120px; /* Ensure minimum width */
             }
             .comparison-dropdowns {
                 flex-direction: row; /* Dropdowns side-by-side */
@@ -1067,6 +1080,10 @@
                 border-radius: 25px; /* Restore original border-radius */
                 font-size: 1.1em; /* Restore original font size */
             }
+            .tools-dropdown-menu {
+                max-width: 700px; /* Wider panel for more screen space */
+                padding: 25px; /* More padding */
+            }
         }
 
         /* Specific adjustment for navigation in very wide screens to prevent stretching */
@@ -1124,101 +1141,110 @@
                 </select>
             </div>
 
-            <div class="comparison-controls-container">
-                <div class="comparison-dropdowns">
-                    <select id="friend1Select">
-                        <option value="">Select Friend 1</option>
-                    </select>
-                    <select id="friend2Select">
-                        <option value="">Select Friend 2</option>
-                    </select>
+            <div class="tools-container">
+                <button id="openToolsButton"><i class="fas fa-tools"></i> Tools</button>
+                <div id="toolsDropdownMenu" class="tools-dropdown-menu">
+
+                    <div class="tools-section filter-section-inside-tools">
+                        <h4><i class="fas fa-filter"></i> Filter Friends</h4>
+                        <div class="filter-section">
+                            <h4>Parameter Ranges (0-10)</h4>
+                            <div class="filter-param-group">
+                                <label for="truthnessMin">Truthfulness:</label>
+                                <input type="number" id="truthnessMin" min="0" max="10" placeholder="Min">
+                                <input type="number" id="truthnessMax" min="0" max="10" placeholder="Max">
+                            </div>
+                            <div class="filter-param-group">
+                                <label for="angrinessMin">Angriness:</label>
+                                <input type="number" id="angrinessMin" min="0" max="10" placeholder="Min">
+                                <input type="number" id="angrinessMax" min="0" max="10" placeholder="Max">
+                            </div>
+                            <div class="filter-param-group">
+                                <label for="humorMin">Humor:</label>
+                                <input type="number" id="humorMin" min="0" max="10" placeholder="Min">
+                                <input type="number" id="humorMax" min="0" max="10" placeholder="Max">
+                            </div>
+                            <div class="filter-param-group">
+                                <label for="empathyMin">Empathy:</label>
+                                <input type="number" id="empathyMin" min="0" max="10" placeholder="Min">
+                                <input type="number" id="empathyMax" min="0" max="10" placeholder="Max">
+                            </div>
+                            <div class="filter-param-group">
+                                <label for="optimismMin">Optimism:</label>
+                                <input type="number" id="optimismMin" min="0" max="10" placeholder="Min">
+                                <input type="number" id="optimismMax" min="0" max="10" placeholder="Max">
+                            </div>
+                            <div class="filter-param-group">
+                                <label for="creativityMin">Creativity:</label>
+                                <input type="number" id="creativityMin" min="0" max="10" placeholder="Min">
+                                <input type="number" id="creativityMax" min="0" max="10" placeholder="Max">
+                            </div>
+                            <div class="filter-param-group">
+                                <label for="socialScoreMin">Social Score:</label>
+                                <input type="number" id="socialScoreMin" min="0" max="10" placeholder="Min">
+                                <input type="number" id="socialScoreMax" min="0" max="10" placeholder="Max">
+                            </div>
+                            <div class="filter-param-group">
+                                <label for="calmnessMin">Calmness:</label>
+                                <input type="number" id="calmnessMin" min="0" max="10" placeholder="Min">
+                                <input type="number" id="calmnessMax" min="0" max="10" placeholder="Max">
+                            </div>
+                            <div class="filter-param-group">
+                                <label for="punctualityMin">Punctuality:</label>
+                                <input type="number" id="punctualityMin" min="0" max="10" placeholder="Min">
+                                <input type="number" id="punctualityMax" min="0" max="10" placeholder="Max">
+                            </div>
+                        </div>
+                        <div class="filter-section">
+                            <h4>Keywords</h4>
+                            <div class="filter-param-group">
+                                <label for="foodPreferenceFilter">Food Preference:</label>
+                                <input type="text" id="foodPreferenceFilter" placeholder="e.g., pizza, vegan">
+                            </div>
+                            <div class="filter-param-group">
+                                <label for="hobbiesFilter">Hobbies:</label>
+                                <input type="text" id="hobbiesFilter" placeholder="e.g., hiking, reading">
+                            </div>
+                            <div class="filter-param-group">
+                                <label for="notesFilter">Notes:</label>
+                                <input type="text" id="notesFilter" placeholder="e.g., colleague, birthday">
+                            </div>
+                        </div>
+                        <div class="filter-actions">
+                            <button id="applyFiltersBtn" class="filter-action-btn"><i class="fas fa-check-circle"></i> Apply Filters</button>
+                            <button id="clearFiltersBtn" class="filter-action-btn clear-btn"><i class="fas fa-times-circle"></i> Clear Filters</button>
+                        </div>
+                    </div>
+
+                    <div class="tools-section comparison-section-inside-tools">
+                        <h4><i class="fas fa-exchange-alt"></i> Compare Friends</h4>
+                        <div class="comparison-dropdowns">
+                            <select id="friend1Select">
+                                <option value="">Select Friend 1</option>
+                            </select>
+                            <select id="friend2Select">
+                                <option value="">Select Friend 2</option>
+                            </select>
+                        </div>
+                        <button id="compareFriendsBtn"><i class="fas fa-exchange-alt"></i> Compare Friends</button>
+                    </div>
+
+                    <div class="tools-section data-management-section-inside-tools">
+                        <h4><i class="fas fa-file-export"></i> Data Management</h4>
+                        <div class="data-management-buttons">
+                            <button id="exportData"><i class="fas fa-download"></i> Export Data (JSON)</button>
+                            <input type="file" id="importFileInput" accept=".json">
+                            <button id="importDataButton"><i class="fas fa-upload"></i> Import Data (JSON)</button>
+                        </div>
+                    </div>
+
                 </div>
-                <button id="compareFriendsBtn"><i class="fas fa-exchange-alt"></i> Compare Friends</button>
             </div>
 
             <div id="comparisonResult" style="display: none;">
                 <h3>Friend Comparison</h3>
                 <div id="comparisonTableContainer">
                     </div>
-            </div>
-
-            <div class="filter-controls-container">
-                <button id="filterButton"><i class="fas fa-filter"></i> Filter Friends</button>
-                <div id="filterPanel" class="filter-dropdown-menu">
-                    <div class="filter-section">
-                        <h4>Parameter Ranges (0-10)</h4>
-                        <div class="filter-param-group">
-                            <label for="truthnessMin">Truthfulness:</label>
-                            <input type="number" id="truthnessMin" min="0" max="10" placeholder="Min">
-                            <input type="number" id="truthnessMax" min="0" max="10" placeholder="Max">
-                        </div>
-                        <div class="filter-param-group">
-                            <label for="angrinessMin">Angriness:</label>
-                            <input type="number" id="angrinessMin" min="0" max="10" placeholder="Min">
-                            <input type="number" id="angrinessMax" min="0" max="10" placeholder="Max">
-                        </div>
-                        <div class="filter-param-group">
-                            <label for="humorMin">Humor:</label>
-                            <input type="number" id="humorMin" min="0" max="10" placeholder="Min">
-                            <input type="number" id="humorMax" min="0" max="10" placeholder="Max">
-                        </div>
-                        <div class="filter-param-group">
-                            <label for="empathyMin">Empathy:</label>
-                            <input type="number" id="empathyMin" min="0" max="10" placeholder="Min">
-                            <input type="number" id="empathyMax" min="0" max="10" placeholder="Max">
-                        </div>
-                        <div class="filter-param-group">
-                            <label for="optimismMin">Optimism:</label>
-                            <input type="number" id="optimismMin" min="0" max="10" placeholder="Min">
-                            <input type="number" id="optimismMax" min="0" max="10" placeholder="Max">
-                        </div>
-                        <div class="filter-param-group">
-                            <label for="creativityMin">Creativity:</label>
-                            <input type="number" id="creativityMin" min="0" max="10" placeholder="Min">
-                            <input type="number" id="creativityMax" min="0" max="10" placeholder="Max">
-                        </div>
-                        <div class="filter-param-group">
-                            <label for="socialScoreMin">Social Score:</label>
-                            <input type="number" id="socialScoreMin" min="0" max="10" placeholder="Min">
-                            <input type="number" id="socialScoreMax" min="0" max="10" placeholder="Max">
-                        </div>
-                        <div class="filter-param-group">
-                            <label for="calmnessMin">Calmness:</label>
-                            <input type="number" id="calmnessMin" min="0" max="10" placeholder="Min">
-                            <input type="number" id="calmnessMax" min="0" max="10" placeholder="Max">
-                        </div>
-                        <div class="filter-param-group">
-                            <label for="punctualityMin">Punctuality:</label>
-                            <input type="number" id="punctualityMin" min="0" max="10" placeholder="Min">
-                            <input type="number" id="punctualityMax" min="0" max="10" placeholder="Max">
-                        </div>
-                    </div>
-                    <div class="filter-section">
-                        <h4>Keywords</h4>
-                        <div class="filter-param-group">
-                            <label for="foodPreferenceFilter">Food Preference:</label>
-                            <input type="text" id="foodPreferenceFilter" placeholder="e.g., pizza, vegan">
-                        </div>
-                        <div class="filter-param-group">
-                            <label for="hobbiesFilter">Hobbies:</label>
-                            <input type="text" id="hobbiesFilter" placeholder="e.g., hiking, reading">
-                        </div>
-                        <div class="filter-param-group">
-                            <label for="notesFilter">Notes:</label>
-                            <input type="text" id="notesFilter" placeholder="e.g., colleague, birthday">
-                        </div>
-                    </div>
-                    <div class="filter-actions">
-                        <button id="applyFiltersBtn" class="filter-action-btn"><i class="fas fa-check-circle"></i> Apply Filters</button>
-                        <button id="clearFiltersBtn" class="filter-action-btn clear-btn"><i class="fas fa-times-circle"></i> Clear Filters</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="data-management-buttons">
-                <button id="exportData"><i class="fas fa-download"></i> Export Data (JSON)</button>
-                <input type="file" id="importFileInput" accept=".json">
-                <button id="importDataButton"><i class="fas fa-upload"></i> Import Data (JSON)</button>
             </div>
 
             <div id="birthdaySummary" class="birthday-summary" style="display: none;">
@@ -1386,16 +1412,18 @@
             const exportDataBtn = document.getElementById('exportData');
             const importFileInput = document.getElementById('importFileInput');
             const importDataButton = document.getElementById('importDataButton');
-            const birthdaySummaryDiv = document.getElementById('birthdaySummary'); // New: Birthday Summary Div
+            const birthdaySummaryDiv = document.getElementById('birthdaySummary');
 
-            // --- Filter Elements ---
-            const filterButton = document.getElementById('filterButton');
-            const filterPanel = document.getElementById('filterPanel');
+            // --- NEW: Tools Elements ---
+            const openToolsButton = document.getElementById('openToolsButton');
+            const toolsDropdownMenu = document.getElementById('toolsDropdownMenu');
+
+            // --- Filter Elements (now inside Tools dropdown) ---
             const applyFiltersBtn = document.getElementById('applyFiltersBtn');
             const clearFiltersBtn = document.getElementById('clearFiltersBtn');
 
             const numericalParams = ['truthness', 'angriness', 'humor', 'empathy', 'optimism', 'creativity', 'socialScore', 'calmness', 'punctuality'];
-            const textParams = ['foodPreference', 'hobbies', 'notes']; // 'birthday' will be treated differently for filtering/searching
+            const textParams = ['foodPreference', 'hobbies', 'notes'];
 
             const filterInputs = {};
             numericalParams.forEach(param => {
@@ -1409,25 +1437,28 @@
             // --- Sorting Elements ---
             const sortSelect = document.getElementById('sortSelect');
 
-            // --- Comparison Elements ---
+            // --- Comparison Elements (now inside Tools dropdown) ---
             const friend1Select = document.getElementById('friend1Select');
             const friend2Select = document.getElementById('friend2Select');
             const compareFriendsBtn = document.getElementById('compareFriendsBtn');
             const comparisonResultDiv = document.getElementById('comparisonResult');
             const comparisonTableContainer = document.getElementById('comparisonTableContainer');
 
-            // --- Filter Panel Toggle Logic ---
-            filterButton.addEventListener('click', function(event) {
+
+            // --- Tools Panel Toggle Logic ---
+            openToolsButton.addEventListener('click', function(event) {
                 event.stopPropagation(); // Prevent document click from immediately closing it
-                filterPanel.classList.toggle('visible');
+                toolsDropdownMenu.classList.toggle('visible');
             });
 
-            // Close panel if clicked outside
+            // Close tools panel if clicked outside
             document.addEventListener('click', function(event) {
-                if (!filterPanel.contains(event.target) && !filterButton.contains(event.target)) {
-                    filterPanel.classList.remove('visible');
+                // Check if the click was outside the tools dropdown menu AND not on the open tools button itself
+                if (!toolsDropdownMenu.contains(event.target) && !openToolsButton.contains(event.target)) {
+                    toolsDropdownMenu.classList.remove('visible');
                 }
             });
+
 
             // --- Filter, Search, and Sort Logic for Render ---
             function renderFriendsList() {
@@ -1683,7 +1714,7 @@
 
             applyFiltersBtn.addEventListener('click', function() {
                 renderFriendsList(); // Re-render with current filter settings
-                filterPanel.classList.remove('visible'); // Hide panel after applying
+                toolsDropdownMenu.classList.remove('visible'); // Close tools panel after applying filters
             });
 
             // Clear Filters
@@ -1698,7 +1729,7 @@
                     filterInputs[`${param}Filter`].value = '';
                 });
                 renderFriendsList(); // Re-render with cleared filters
-                filterPanel.classList.remove('visible'); // Hide panel after clearing
+                toolsDropdownMenu.classList.remove('visible'); // Close tools panel after clearing filters
             });
 
             // --- Export Data Feature ---
@@ -1720,6 +1751,7 @@
                 document.body.removeChild(a); // Clean up
                 URL.revokeObjectURL(url); // Release the URL object
                 alert('FriendForge data exported successfully!');
+                toolsDropdownMenu.classList.remove('visible'); // Close tools panel after export
             });
 
             // --- Import Data Feature ---
@@ -1780,6 +1812,7 @@
                         saveFriends(finalFriends);
                         renderFriendsList(); // Re-render the list with new data
                         populateFriendSelects(); // Re-populate comparison dropdowns after import
+                        toolsDropdownMenu.classList.remove('visible'); // Close tools panel after import
 
                     } catch (error) {
                         console.error("Error importing data:", error);
