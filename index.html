@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Friend - FriendForge</title>
+    <title>FriendForge - Add/Edit Friend</title>
     <link rel="icon" href="icon.png" type="image/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -31,7 +31,7 @@
         /* Container for the entire app - Modern Dark Mode */
         .container {
             width: 100%; /* Default to full width minus padding */
-            max-width: 960px; /* Limit max width for large screens */
+            max-width: 768px; /* Limit max width for tablets/desktops */
             background-color: #1F1F1F; /* Darker charcoal for container */
             border-radius: 15px; /* More rounded corners */
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* More pronounced, softer shadow */
@@ -130,7 +130,7 @@
             text-align: center;
         }
 
-        /* Form Styling - Modern Dark Mode */
+        /* Form Styling */
         form {
             display: flex;
             flex-direction: column;
@@ -154,8 +154,8 @@
             font-size: 1em; /* Adjusted font size */
         }
 
-        /* Styling for text inputs and textareas */
         .form-group input[type="text"],
+        .form-group input[type="date"], /* Added date input type */
         .form-group textarea {
             padding: 10px 12px; /* Reduced padding */
             border: 1px solid #444;
@@ -170,11 +170,26 @@
         }
 
         .form-group input[type="text"]:focus,
+        .form-group input[type="date"]:focus, /* Added date input type */
         .form-group textarea:focus {
             outline: none;
             border-color: #00ACC1;
             box-shadow: 0 0 0 3px rgba(0, 172, 193, 0.3), inset 0 1px 2px rgba(0, 0, 0, 0.6);
         }
+        
+        /* Specific styling for date input to ensure consistent appearance */
+        .form-group input[type="date"] {
+            -webkit-appearance: none; /* Remove default date input styling */
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg fill="%23E0E0E0" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 24px;
+            cursor: pointer;
+            padding-right: 40px; /* Make space for the custom icon */
+        }
+
 
         /* Styling for range inputs (sliders) */
         .form-group input[type="range"] {
@@ -245,7 +260,6 @@
             text-align: right;
         }
 
-
         /* Button Styling - Modern Dynamic */
         button {
             padding: 10px 20px; /* Reduced padding */
@@ -280,171 +294,18 @@
             box-shadow: 0 5px 15px rgba(255, 179, 0, 0.6);
         }
 
-        .delete-button {
-            background-color: #E53935;
-            margin-top: 20px; /* Reduced margin */
-            box-shadow: 0 3px 10px rgba(229, 57, 53, 0.4);
-        }
-        .delete-button:hover {
-            background-color: #C62828;
-            box-shadow: 0 5px 15px rgba(229, 57, 53, 0.6);
-        }
-
-        /* Friend Cards Display Grid (Mobile-first adjustment) */
-        .friends-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); /* Safer min-width for portrait phones */
-            gap: 20px; /* Reduced gap */
-        }
-
-        /* Styling for individual friend cards (Adjusted for responsiveness) */
-        .friend-card {
-            background-color: #282828;
-            border: 1px solid rgba(70, 70, 70, 0.8);
-            border-radius: 10px; /* Slightly less rounded */
-            padding: 18px 20px; /* Adjusted padding */
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* Reduced shadow */
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-            position: relative;
-            color: #E0E0E0;
-            cursor: pointer;
+        .button-group {
             display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            gap: 15px; /* Reduced gap */
+            justify-content: center; /* Center buttons horizontally */
+            margin-top: 10px; /* Add some space above */
+        }
+        .button-group button {
+            flex-grow: 1; /* Allow buttons to grow and fill space */
+            max-width: 200px; /* Limit individual button width */
         }
 
-        .friend-card:hover {
-            transform: translateY(-4px); /* Slightly less pronounced lift */
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6); /* Adjusted shadow */
-            border-color: #00ACC1;
-        }
-
-        /* Friend Name Styling */
-        .friend-card h3 {
-            color: #B3E5FC;
-            margin-top: 0;
-            margin-bottom: 12px; /* Reduced margin */
-            border-bottom: 1px solid #00838F;
-            padding-bottom: 8px; /* Reduced padding */
-            font-size: 1.6em; /* Adjusted font size */
-            font-weight: 600;
-            pointer-events: none;
-        }
-
-        /* Parameter Text Styling */
-        .friend-card p {
-            color: #C0C0C0;
-            margin: 5px 0; /* Reduced margin */
-            line-height: 1.4;
-            font-size: 0.9em; /* Slightly smaller font size */
-            pointer-events: none;
-        }
-
-        /* Parameter Name (e.g., "Truthfulness:") Styling */
-        .friend-card strong {
-            color: #81D4FA;
-            min-width: 100px; /* Adjusted for smaller screens */
-            display: inline-block;
-        }
-
-        .friend-card .delete-card-button {
-            position: absolute;
-            top: 10px; /* Adjusted position */
-            right: 10px; /* Adjusted position */
-            background-color: #E53935;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 32px; /* Smaller button */
-            height: 32px; /* Smaller button */
-            font-size: 1.1em; /* Adjusted font size */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-            padding: 0;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-            pointer-events: auto;
-            z-index: 10;
-        }
-
-        .friend-card .delete-card-button:hover {
-            background-color: #C62828;
-            transform: scale(1.1);
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
-        }
-
-        /* --- Progress Bar Styles - Modern Dynamic --- */
-        .progress-container {
-            width: 100%;
-            background-color: #3A3A3A;
-            border-radius: 8px;
-            overflow: hidden;
-            height: 10px; /* Slightly thinner bars */
-            margin-top: 6px; /* Reduced margin */
-            margin-bottom: 10px; /* Reduced margin */
-            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
-            pointer-events: none;
-        }
-
-        .progress-bar {
-            height: 100%;
-            width: 0%;
-            border-radius: 8px;
-            transition: width 0.8s ease-out, background-color 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            padding-right: 5px;
-            font-size: 0.7em;
-            color: rgba(255,255,255,0.8);
-        }
-
-        /* Dynamic Colors for Progress Bars */
-        .progress-bar.low { background-color: #FF5252; }
-        .progress-bar.medium { background-color: #FFD740; }
-        .progress-bar.high { background-color: #69F0AE; }
-
-
-        /* Specific styling for the text-based parameters to ensure consistent spacing */
-        .friend-card p.text-param {
-            margin-top: 12px;
-            margin-bottom: 6px;
-            color: #B0B0B0;
-        }
-
-        /* Search Bar Styling - Modern Dark Mode */
-        .search-container {
-            margin-bottom: 25px;
-            text-align: center;
-        }
-
-        #searchBar {
-            padding: 10px 15px;
-            width: 90%;
-            max-width: 400px;
-            border: 1px solid #444;
-            border-radius: 20px;
-            font-size: 1em;
-            background-color: #333;
-            color: #E0E0E0;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.4);
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        #searchBar::placeholder {
-            color: #999;
-        }
-
-        #searchBar:focus {
-            outline: none;
-            border-color: #00ACC1;
-            box-shadow: 0 0 0 3px rgba(0, 172, 193, 0.3), inset 0 1px 3px rgba(0,0,0,0.6);
-        }
-
-
-        /* --- Media Queries for Landscape / Larger Screens --- */
+        /* Media Queries for Landscape / Larger Screens */
 
         /* For screens wider than 576px (e.g., larger phones in landscape, small tablets) */
         @media (min-width: 576px) {
@@ -474,12 +335,23 @@
                 padding-bottom: 12px;
             }
 
-            .friends-grid {
-                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Allow two columns more easily */
-                gap: 22px;
+            form {
+                gap: 18px;
+                padding: 22px;
             }
-            .friend-card {
-                padding: 20px 22px;
+
+            .form-group label {
+                font-size: 1.05em;
+            }
+            .form-group input[type="text"],
+            .form-group input[type="date"], /* Added date input type */
+            .form-group textarea {
+                padding: 11px 14px;
+                font-size: 1.05em;
+                min-height: 48px;
+            }
+            .button-group {
+                gap: 20px;
             }
         }
 
@@ -502,7 +374,6 @@
             nav a {
                 padding: 12px 25px; /* Restore original nav link padding */
                 font-size: 1.1em;
-                justify-content: center; /* Ensure centered still for better alignment */
             }
 
             h1 {
@@ -524,10 +395,11 @@
 
             .form-group label {
                 margin-bottom: 8px; /* Restore original label margin */
-                font-size: 1.05em;
+                font-size: 1.1em;
             }
 
             .form-group input[type="text"],
+            .form-group input[type="date"], /* Added date input type */
             .form-group textarea {
                 padding: 12px 15px; /* Restore original input padding */
                 font-size: 1.1em;
@@ -539,73 +411,11 @@
                 font-size: 1.15em;
             }
 
-            #clearForm {
-                margin-top: 0; /* Align with save button */
+            .button-group {
+                margin-top: 15px;
             }
-
-            .delete-button {
-                margin-top: 25px; /* Restore original margin */
-            }
-
-            .friends-grid {
-                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Restore original card min-width */
-                gap: 25px; /* Restore original card gap */
-            }
-
-            .friend-card {
-                border-radius: 12px; /* Restore original card border-radius */
-                padding: 20px 25px; /* Restore original card padding */
-                box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4); /* Restore original shadow */
-            }
-
-            .friend-card:hover {
-                transform: translateY(-5px); /* Restore original lift */
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6); /* Restore original shadow */
-            }
-
-            .friend-card h3 {
-                margin-bottom: 15px; /* Restore original margin */
-                padding-bottom: 10px; /* Restore original padding */
-                font-size: 1.8em; /* Restore original font size */
-            }
-
-            .friend-card p {
-                margin: 6px 0; /* Restore original margin */
-                font-size: 0.95em; /* Restore original font size */
-            }
-
-            .friend-card strong {
-                min-width: 110px; /* Restore original min-width */
-            }
-
-            .friend-card .delete-card-button {
-                width: 36px; /* Restore original button size */
-                height: 36px; /* Restore original button size */
-                font-size: 1.3em; /* Restore original font size */
-                top: 15px; /* Restore original position */
-                right: 15px; /* Restore original position */
-            }
-
-            .progress-container {
-                height: 12px; /* Restore original bar height */
-                margin-top: 8px; /* Restore original margin */
-                margin-bottom: 15px; /* Restore original margin */
-            }
-
-            .friend-card p.text-param {
-                margin-top: 15px; /* Restore original margin */
-                margin-bottom: 8px; /* Restore original margin */
-            }
-
-            .search-container {
-                margin-bottom: 30px; /* Restore original margin */
-            }
-
-            #searchBar {
-                padding: 12px 20px; /* Restore original search bar padding */
-                max-width: 450px; /* Restore original max-width */
-                border-radius: 25px; /* Restore original border-radius */
-                font-size: 1.1em; /* Restore original font size */
+            .button-group button {
+                max-width: 220px;
             }
         }
 
@@ -631,248 +441,260 @@
         </nav>
 
         <div class="input-section">
-            <h2 id="formHeading">Add New Friend</h2>
-            <form id="friend-form">
+            <h2 id="formTitle">Add a New Friend</h2>
+            <form id="friendForm">
                 <div class="form-group">
-                    <label for="friendName">Friend's Name:</label>
-                    <input type="text" id="friendName" required>
+                    <label for="name">Friend's Name:</label>
+                    <input type="text" id="name" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="truthness">Truthfulness (0-10):</label>
+                    <label for="birthday">Birthday:</label>
+                    <input type="date" id="birthday">
+                </div>
+
+                <div class="form-group">
+                    <label for="truthness">Truthfulness:</label>
                     <div class="slider-group">
-                        <input type="range" id="truthness" min="0" max="10" value="0" step="1" required>
-                        <span id="truthness-value" class="slider-value">0/10</span>
+                        <input type="range" id="truthness" min="0" max="10" value="5">
+                        <span id="truthnessValue" class="slider-value">5/10</span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="angriness">Angriness (0-10):</label>
+                    <label for="angriness">Angriness:</label>
                     <div class="slider-group">
-                        <input type="range" id="angriness" min="0" max="10" value="0" step="1" required>
-                        <span id="angriness-value" class="slider-value">0/10</span>
+                        <input type="range" id="angriness" min="0" max="10" value="5">
+                        <span id="angrinessValue" class="slider-value">5/10</span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="humor">Humor (0-10):</label>
+                    <label for="humor">Humor:</label>
                     <div class="slider-group">
-                        <input type="range" id="humor" min="0" max="10" value="0" step="1" required>
-                        <span id="humor-value" class="slider-value">0/10</span>
+                        <input type="range" id="humor" min="0" max="10" value="5">
+                        <span id="humorValue" class="slider-value">5/10</span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="empathy">Empathy (0-10):</label>
+                    <label for="empathy">Empathy:</label>
                     <div class="slider-group">
-                        <input type="range" id="empathy" min="0" max="10" value="0" step="1" required>
-                        <span id="empathy-value" class="slider-value">0/10</span>
+                        <input type="range" id="empathy" min="0" max="10" value="5">
+                        <span id="empathyValue" class="slider-value">5/10</span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="optimism">Optimism (0-10):</label>
+                    <label for="optimism">Optimism:</label>
                     <div class="slider-group">
-                        <input type="range" id="optimism" min="0" max="10" value="0" step="1" required>
-                        <span id="optimism-value" class="slider-value">0/10</span>
+                        <input type="range" id="optimism" min="0" max="10" value="5">
+                        <span id="optimismValue" class="slider-value">5/10</span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="creativity">Creativity (0-10):</label>
+                    <label for="creativity">Creativity:</label>
                     <div class="slider-group">
-                        <input type="range" id="creativity" min="0" max="10" value="0" step="1" required>
-                        <span id="creativity-value" class="slider-value">0/10</span>
+                        <input type="range" id="creativity" min="0" max="10" value="5">
+                        <span id="creativityValue" class="slider-value">5/10</span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="socialScore">Social Score (0-10):</label>
+                    <label for="socialScore">Social Score:</label>
                     <div class="slider-group">
-                        <input type="range" id="socialScore" min="0" max="10" value="0" step="1" required>
-                        <span id="socialScore-value" class="slider-value">0/10</span>
+                        <input type="range" id="socialScore" min="0" max="10" value="5">
+                        <span id="socialScoreValue" class="slider-value">5/10</span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="calmness">Calmness (0-10):</label>
+                    <label for="calmness">Calmness:</label>
                     <div class="slider-group">
-                        <input type="range" id="calmness" min="0" max="10" value="0" step="1" required>
-                        <span id="calmness-value" class="slider-value">0/10</span>
+                        <input type="range" id="calmness" min="0" max="10" value="5">
+                        <span id="calmnessValue" class="slider-value">5/10</span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="punctuality">Punctuality (0-10):</label>
+                    <label for="punctuality">Punctuality:</label>
                     <div class="slider-group">
-                        <input type="range" id="punctuality" min="0" max="10" value="0" step="1" required>
-                        <span id="punctuality-value" class="slider-value">0/10</span>
+                        <input type="range" id="punctuality" min="0" max="10" value="5">
+                        <span id="punctualityValue" class="slider-value">5/10</span>
                     </div>
                 </div>
+
                 <div class="form-group">
-                    <label for="foodPreference">Food Preference (e.g., Vegetarian, Spicy, Sweets):</label>
-                    <input type="text" id="foodPreference">
+                    <label for="foodPreference">Food Preference:</label>
+                    <input type="text" id="foodPreference" placeholder="e.g., Italian, Spicy, Vegan">
                 </div>
                 <div class="form-group">
-                    <label for="hobbies">Hobbies (comma-separated, e.g., Reading, Hiking, Gaming):</label>
-                    <input type="text" id="hobbies">
+                    <label for="hobbies">Hobbies:</label>
+                    <textarea id="hobbies" rows="3" placeholder="e.g., Reading, Hiking, Gaming"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="notes">Notes:</label>
-                    <textarea id="notes" rows="3"></textarea>
+                    <textarea id="notes" rows="3" placeholder="Any additional notes about your friend"></textarea>
                 </div>
-                <button type="submit" id="saveButton">Add Friend</button>
-                <button type="button" id="clearForm">Clear Form</button>
+
+                <div class="button-group">
+                    <button type="submit" id="saveFriendBtn"><i class="fas fa-save"></i> Save Friend</button>
+                    <button type="button" id="clearForm"><i class="fas fa-sync-alt"></i> Reset Form</button>
+                </div>
             </form>
         </div>
     </div>
 
     <script>
-        function getFriends() {
-            const friendsJSON = localStorage.getItem('friends');
-            return friendsJSON ? JSON.parse(friendsJSON) : [];
-        }
-
-        function saveFriends(friends) {
-            localStorage.setItem('friends', JSON.stringify(friends));
-        }
-
         document.addEventListener('DOMContentLoaded', function() {
-            const friendForm = document.getElementById('friend-form');
-            const friendNameInput = document.getElementById('friendName');
-
-            // Select all slider inputs and their corresponding value spans
-            const sliderInputs = [
-                { input: document.getElementById('truthness'), valueSpan: document.getElementById('truthness-value') },
-                { input: document.getElementById('angriness'), valueSpan: document.getElementById('angriness-value') },
-                { input: document.getElementById('humor'), valueSpan: document.getElementById('humor-value') },
-                { input: document.getElementById('empathy'), valueSpan: document.getElementById('empathy-value') },
-                { input: document.getElementById('optimism'), valueSpan: document.getElementById('optimism-value') },
-                { input: document.getElementById('creativity'), valueSpan: document.getElementById('creativity-value') },
-                { input: document.getElementById('socialScore'), valueSpan: document.getElementById('socialScore-value') },
-                { input: document.getElementById('calmness'), valueSpan: document.getElementById('calmness-value') },
-                { input: document.getElementById('punctuality'), valueSpan: document.getElementById('punctuality-value') }
-            ];
-
+            const friendForm = document.getElementById('friendForm');
+            const nameInput = document.getElementById('name');
+            const birthdayInput = document.getElementById('birthday'); // New: Birthday input
             const foodPreferenceInput = document.getElementById('foodPreference');
             const hobbiesInput = document.getElementById('hobbies');
             const notesInput = document.getElementById('notes');
+            const saveFriendBtn = document.getElementById('saveFriendBtn');
             const clearFormBtn = document.getElementById('clearForm');
-            const formHeading = document.getElementById('formHeading');
-            const saveButton = document.getElementById('saveButton');
+            const formTitle = document.getElementById('formTitle');
 
-            let currentFriendNameForEdit = null;
+            // Array of all numerical parameter IDs
+            const numericalParams = ['truthness', 'angriness', 'humor', 'empathy', 'optimism', 'creativity', 'socialScore', 'calmness', 'punctuality'];
 
-            // Function to update the displayed value next to the slider
-            function updateSliderValueDisplay(sliderInput, valueSpan) {
-                valueSpan.textContent = `${sliderInput.value}/10`;
+            // Function to get current friends from Local Storage
+            function getFriends() {
+                const friendsJSON = localStorage.getItem('friends');
+                return friendsJSON ? JSON.parse(friendsJSON) : [];
             }
 
-            // Attach event listeners to all sliders
-            sliderInputs.forEach(item => {
-                item.input.addEventListener('input', () => updateSliderValueDisplay(item.input, item.valueSpan));
-                // Initialize display on load
-                updateSliderValueDisplay(item.input, item.valueSpan);
+            // Function to save friends to Local Storage
+            function saveFriends(friends) {
+                localStorage.setItem('friends', JSON.stringify(friends));
+            }
+
+            // Function to update slider value display
+            function updateSliderValue(sliderId) {
+                const slider = document.getElementById(sliderId);
+                const valueSpan = document.getElementById(sliderId + 'Value');
+                valueSpan.textContent = `${slider.value}/10`;
+            }
+
+            // Attach event listeners to all numerical sliders
+            numericalParams.forEach(param => {
+                const slider = document.getElementById(param);
+                slider.addEventListener('input', () => updateSliderValue(param));
+                // Initial update on page load
+                updateSliderValue(param);
             });
 
-
-            const params = new URLSearchParams(window.location.search);
-            const editFriendName = params.get('edit');
-            if (editFriendName) {
-                const friends = getFriends();
-                const friendToEdit = friends.find(f => f.name === editFriendName);
-                if (friendToEdit) {
-                    currentFriendNameForEdit = friendToEdit.name;
-                    friendNameInput.value = friendToEdit.name;
-
-                    // Set slider values and update their displays
-                    sliderInputs.forEach(item => {
-                        const attributeName = item.input.id; // e.g., 'truthness'
-                        item.input.value = friendToEdit[attributeName] || 0;
-                        updateSliderValueDisplay(item.input, item.valueSpan);
-                    });
-
-                    foodPreferenceInput.value = friendToEdit.foodPreference || '';
-                    hobbiesInput.value = friendToEdit.hobbies || '';
-                    notesInput.value = friendToEdit.notes || '';
-
-                    formHeading.textContent = `Update Friend: ${friendToEdit.name}`;
-                    saveButton.textContent = 'Update Friend';
-                    friendNameInput.focus();
-                } else {
-                    history.replaceState(null, '', location.pathname);
-                    alert("Friend to edit not found. Starting a new entry.");
-                    friendForm.reset();
-                    friendNameInput.value = '';
-                    // Reset slider displays after form reset
-                    sliderInputs.forEach(item => updateSliderValueDisplay(item.input, item.valueSpan));
-                }
-            } else {
-                formHeading.textContent = 'Add New Friend';
-                saveButton.textContent = 'Add Friend';
+            // Function to clear the form
+            function clearForm() {
+                friendForm.reset(); // Resets all form fields to their initial values
+                nameInput.value = '';
+                birthdayInput.value = ''; // New: Clear birthday input
+                foodPreferenceInput.value = '';
+                hobbiesInput.value = '';
+                notesInput.value = '';
+                numericalParams.forEach(param => {
+                    const slider = document.getElementById(param);
+                    slider.value = 5; // Set sliders back to default 5
+                    updateSliderValue(param);
+                });
+                saveFriendBtn.textContent = 'Save Friend';
+                saveFriendBtn.innerHTML = '<i class="fas fa-save"></i> Save Friend'; // Reset icon
+                formTitle.textContent = 'Add a New Friend';
+                nameInput.readOnly = false; // Make name editable again for new friends
+                // Clear the 'edit' parameter from the URL if it exists
+                history.pushState({}, '', 'index.html');
+                alert("Form cleared! Ready to add a new friend.");
             }
 
+            // Handle form submission
             friendForm.addEventListener('submit', function(event) {
-                event.preventDefault();
+                event.preventDefault(); // Prevent default form submission
 
-                const friendData = {
-                    name: friendNameInput.value.trim(),
-                    truthness: parseInt(document.getElementById('truthness').value) || 0,
-                    angriness: parseInt(document.getElementById('angriness').value) || 0,
-                    humor: parseInt(document.getElementById('humor').value) || 0,
-                    empathy: parseInt(document.getElementById('empathy').value) || 0,
-                    optimism: parseInt(document.getElementById('optimism').value) || 0,
-                    creativity: parseInt(document.getElementById('creativity').value) || 0,
-                    socialScore: parseInt(document.getElementById('socialScore').value) || 0,
-                    calmness: parseInt(document.getElementById('calmness').value) || 0,
-                    punctuality: parseInt(document.getElementById('punctuality').value) || 0,
+                const friendName = nameInput.value.trim();
+                if (!friendName) {
+                    alert("Friend's name is required!");
+                    return;
+                }
+
+                let friends = getFriends();
+                const isEditMode = nameInput.readOnly;
+                let friendToUpdate = null;
+
+                if (isEditMode) {
+                    // Find the existing friend by the original name (which is in nameInput.value)
+                    friendToUpdate = friends.find(f => f.name === friendName);
+                } else {
+                    // Check for duplicate name if adding a new friend
+                    if (friends.some(f => f.name.toLowerCase() === friendName.toLowerCase())) {
+                        alert(`A friend named "${friendName}" already exists! Please use a different name or edit the existing friend from the list.`);
+                        return;
+                    }
+                }
+
+                // Create or update friend object
+                const newFriend = {
+                    name: friendName,
+                    birthday: birthdayInput.value, // New: Add birthday
+                    truthness: parseInt(document.getElementById('truthness').value),
+                    angriness: parseInt(document.getElementById('angriness').value),
+                    humor: parseInt(document.getElementById('humor').value),
+                    empathy: parseInt(document.getElementById('empathy').value),
+                    optimism: parseInt(document.getElementById('optimism').value),
+                    creativity: parseInt(document.getElementById('creativity').value),
+                    socialScore: parseInt(document.getElementById('socialScore').value),
+                    calmness: parseInt(document.getElementById('calmness').value),
+                    punctuality: parseInt(document.getElementById('punctuality').value),
                     foodPreference: foodPreferenceInput.value.trim(),
                     hobbies: hobbiesInput.value.trim(),
                     notes: notesInput.value.trim()
                 };
 
-                if (friendData.name === "") {
-                    alert("Friend's name cannot be empty!");
-                    return;
-                }
-
-                let friends = getFriends();
-                let message = "";
-
-                if (currentFriendNameForEdit) {
-                    const existingFriendIndex = friends.findIndex(f => f.name === currentFriendNameForEdit);
-                    if (existingFriendIndex > -1) {
-                        friends[existingFriendIndex] = friendData;
-                        message = `${friendData.name}'s data updated successfully!`;
-                    } else {
-                        friends.push(friendData);
-                        message = `${friendData.name} added as a new friend! (Original friend not found for update)`;
-                    }
-                    currentFriendNameForEdit = null;
+                if (friendToUpdate) {
+                    // Update existing friend
+                    Object.assign(friendToUpdate, newFriend);
+                    alert(`Friend "${newFriend.name}" updated successfully!`);
                 } else {
-                    const existingFriendIndex = friends.findIndex(f => f.name.toLowerCase() === friendData.name.toLowerCase());
-                    if (existingFriendIndex > -1) {
-                         alert(`A friend named "${friendData.name}" already exists. Please update them from the list, or choose a different name.`);
-                         return;
-                    } else {
-                        friends.push(friendData);
-                        message = `${friendData.name} added successfully!`;
-                    }
+                    // Add new friend
+                    friends.push(newFriend);
+                    alert(`Friend "${newFriend.name}" added successfully!`);
                 }
 
-                saveFriends(friends);
-                alert(message);
-                this.reset();
-                friendNameInput.value = '';
-                formHeading.textContent = 'Add New Friend';
-                saveButton.textContent = 'Add Friend';
-                history.replaceState(null, '', location.pathname);
-                // Reset slider displays after form reset
-                sliderInputs.forEach(item => updateSliderValueDisplay(item.input, item.valueSpan));
+                saveFriends(friends); // Save updated array to Local Storage
+                clearForm(); // Clear the form after saving
             });
 
-            clearFormBtn.addEventListener('click', function() {
-                friendForm.reset();
-                friendNameInput.value = '';
-                formHeading.textContent = 'Add New Friend';
-                saveButton.textContent = 'Add Friend';
-                currentFriendNameForEdit = null;
-                history.replaceState(null, '', location.pathname);
-                // Reset slider displays after form reset
-                sliderInputs.forEach(item => updateSliderValueDisplay(item.input, item.valueSpan));
-            });
+            // Handle clear form button click
+            clearFormBtn.addEventListener('click', clearForm);
+
+            // Function to load friend data into the form for editing
+            function loadFriendForEdit(friendName) {
+                const friends = getFriends();
+                const friendToEdit = friends.find(f => f.name === friendName);
+
+                if (friendToEdit) {
+                    nameInput.value = friendToEdit.name;
+                    nameInput.readOnly = true; // Make name read-only during edit
+                    formTitle.textContent = `Edit Friend: ${friendToEdit.name}`;
+                    saveFriendBtn.textContent = 'Update Friend';
+                    saveFriendBtn.innerHTML = '<i class="fas fa-edit"></i> Update Friend'; // Change icon
+
+                    birthdayInput.value = friendToEdit.birthday || ''; // New: Populate birthday field
+
+                    numericalParams.forEach(param => {
+                        const slider = document.getElementById(param);
+                        slider.value = friendToEdit[param] !== undefined ? friendToEdit[param] : 5; // Use default if undefined
+                        updateSliderValue(param);
+                    });
+                    foodPreferenceInput.value = friendToEdit.foodPreference || '';
+                    hobbiesInput.value = friendToEdit.hobbies || '';
+                    notesInput.value = friendToEdit.notes || '';
+                } else {
+                    alert('Friend not found for editing.');
+                    clearForm(); // Clear form if friend not found
+                }
+            }
+
+            // Check URL for 'edit' parameter on page load
+            const urlParams = new URLSearchParams(window.location.search);
+            const editFriendName = urlParams.get('edit');
+            if (editFriendName) {
+                loadFriendForEdit(decodeURIComponent(editFriendName));
+            }
         });
     </script>
 </body>
