@@ -329,7 +329,35 @@
             font-size: 1.6em; /* Adjusted font size */
             font-weight: 600;
             pointer-events: none;
+            display: flex;
+            align-items: center; /* Align icon and text */
         }
+
+        .friend-card h3 .birthday-icon {
+            margin-left: 8px;
+            color: #FFEB3B; /* Yellow for birthday icon */
+            font-size: 0.8em; /* Slightly smaller than text */
+            position: relative;
+            top: -2px; /* Fine-tune vertical alignment */
+        }
+
+        /* Birthday Highlight Styles */
+        .friend-card.birthday-today {
+            border: 2px solid #FFEB3B; /* Yellow border for today */
+            box-shadow: 0 0 15px rgba(255, 235, 59, 0.6), 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+        .friend-card.birthday-today:hover {
+            box-shadow: 0 0 20px rgba(255, 235, 59, 0.8), 0 8px 25px rgba(0, 0, 0, 0.6);
+        }
+
+        .friend-card.birthday-upcoming {
+            border: 2px solid #8BC34A; /* Light Green border for upcoming */
+            box-shadow: 0 0 10px rgba(139, 195, 74, 0.4), 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+        .friend-card.birthday-upcoming:hover {
+            box-shadow: 0 0 15px rgba(139, 195, 74, 0.6), 0 8px 25px rgba(0, 0, 0, 0.6);
+        }
+
 
         /* Parameter Text Styling */
         .friend-card p {
@@ -799,6 +827,40 @@
             max-width: 250px; /* Limit max width of text column if needed */
         }
 
+        /* Birthday Summary Section */
+        .birthday-summary {
+            background-color: #2F2F2F;
+            border: 1px solid rgba(130, 201, 250, 0.6);
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 1.1em;
+            color: #B3E5FC;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .birthday-summary p {
+            margin: 0 0 10px 0;
+            font-weight: 500;
+        }
+        .birthday-summary p:last-child {
+            margin-bottom: 0;
+        }
+        .birthday-summary strong {
+            color: #FFEB3B;
+            font-weight: 700;
+        }
+        .birthday-summary em {
+            color: #8BC34A;
+            font-style: normal;
+            font-weight: 500;
+        }
+        .birthday-summary .no-birthdays-message {
+            color: #999;
+            font-style: italic;
+        }
+
         /* --- Media Queries for Landscape / Larger Screens --- */
 
         /* For screens wider than 576px (e.g., larger phones in landscape, small tablets) */
@@ -1159,6 +1221,9 @@
                 <button id="importDataButton"><i class="fas fa-upload"></i> Import Data (JSON)</button>
             </div>
 
+            <div id="birthdaySummary" class="birthday-summary" style="display: none;">
+                </div>
+
             <div id="friendsList" class="friends-grid">
                 <p id="noFriendsMessage">No friends added yet. Go to 'Add Friend' to get started!</p>
             </div>
@@ -1198,11 +1263,65 @@
             }
         }
 
+        /**
+         * Checks if a birthday is today or within the next 7 days.
+         * @param {string} birthdayString - The birthday in YYYY-MM-DD format.
+         * @returns {'today' | 'upcoming' | 'none'}
+         */
+        function getBirthdayStatus(birthdayString) {
+            if (!birthdayString) return 'none';
+
+            const today = new Date();
+            today.setHours(0, 0, 0, 0); // Normalize today to start of day
+
+            const next7Days = new Date(today);
+            next7Days.setDate(today.getDate() + 7); // Calculate 7 days from now
+
+            const [year, month, day] = birthdayString.split('-').map(Number);
+
+            // Calculate birthday in the current year
+            let birthdayThisYear = new Date(today.getFullYear(), month - 1, day);
+            birthdayThisYear.setHours(0, 0, 0, 0); // Normalize
+
+            // Handle birthdays that might wrap around to next year (e.g., today is Dec 28, birthday is Jan 5)
+            let birthdayNextYear = new Date(today.getFullYear() + 1, month - 1, day);
+            birthdayNextYear.setHours(0, 0, 0, 0); // Normalize
+
+            // Check if today
+            if (birthdayThisYear.getTime() === today.getTime()) {
+                return 'today';
+            }
+
+            // Check if upcoming this year
+            if (birthdayThisYear > today && birthdayThisYear <= next7Days) {
+                return 'upcoming';
+            }
+
+            // Check if upcoming next year (for year-end wrap-around)
+            // This is crucial if the 7-day window crosses into the next calendar year
+            if (birthdayNextYear > today && birthdayNextYear <= next7Days) {
+                return 'upcoming';
+            }
+
+            return 'none';
+        }
+
 
         function createFriendCard(friend) {
             const card = document.createElement('div');
             card.classList.add('friend-card');
             card.dataset.name = friend.name; // Store name for easy reference
+
+            const birthdayStatus = getBirthdayStatus(friend.birthday);
+            let birthdayIcon = '';
+            if (birthdayStatus === 'today') {
+                card.classList.add('birthday-today');
+                birthdayIcon = '<i class="fas fa-birthday-cake birthday-icon" title="Birthday Today!"></i>';
+            } else if (birthdayStatus === 'upcoming') {
+                card.classList.add('birthday-upcoming');
+                birthdayIcon = '<i class="fas fa-gift birthday-icon" title="Upcoming Birthday!"></i>';
+            }
+
 
             // Click card to edit
             card.addEventListener('click', function(event) {
@@ -1213,7 +1332,7 @@
             });
 
             card.innerHTML = `
-                <h3>${friend.name}</h3>
+                <h3>${friend.name} ${birthdayIcon}</h3>
                 <button class="delete-card-button" title="Delete Friend"><i class="fas fa-trash-alt"></i></button>
                 <p class="text-param"><strong>Birthday:</strong> ${formatDateForDisplay(friend.birthday)}</p>
                 <p><strong>Truthfulness:</strong> ${friend.truthness}/10</p>
@@ -1267,6 +1386,7 @@
             const exportDataBtn = document.getElementById('exportData');
             const importFileInput = document.getElementById('importFileInput');
             const importDataButton = document.getElementById('importDataButton');
+            const birthdaySummaryDiv = document.getElementById('birthdaySummary'); // New: Birthday Summary Div
 
             // --- Filter Elements ---
             const filterButton = document.getElementById('filterButton');
@@ -1317,6 +1437,8 @@
                 let [sortKey, sortOrder] = sortBy.split('-'); // e.g., "name-asc" -> ["name", "asc"]
 
                 friendsListContainer.innerHTML = ''; // Clear existing cards
+                birthdaySummaryDiv.innerHTML = ''; // Clear existing summary
+                birthdaySummaryDiv.style.display = 'none'; // Hide by default
 
                 if (allFriends.length === 0) {
                     noFriendsMessage.style.display = 'block';
@@ -1324,6 +1446,9 @@
                 } else {
                     noFriendsMessage.style.display = 'none';
                 }
+
+                let friendsWithTodayBirthday = [];
+                let friendsWithUpcomingBirthday = [];
 
                 let filteredAndSearchedFriends = allFriends.filter(friend => {
                     // 1. Apply Search Filter (now includes birthday)
@@ -1403,13 +1528,43 @@
 
                 if (filteredAndSearchedFriends.length === 0) {
                     friendsListContainer.innerHTML = `<p style="text-align: center; color: #999;">No friends found matching your search and filter criteria.</p>`;
-                    return;
+                } else {
+                    filteredAndSearchedFriends.forEach(friend => {
+                        const birthdayStatus = getBirthdayStatus(friend.birthday);
+                        if (birthdayStatus === 'today') {
+                            friendsWithTodayBirthday.push(friend.name);
+                        } else if (birthdayStatus === 'upcoming') {
+                            friendsWithUpcomingBirthday.push(friend.name);
+                        }
+                        friendsListContainer.appendChild(createFriendCard(friend));
+                    });
                 }
 
-                filteredAndSearchedFriends.forEach(friend => {
-                    friendsListContainer.appendChild(createFriendCard(friend));
-                });
+                // Display Birthday Summary
+                displayBirthdaySummary(friendsWithTodayBirthday, friendsWithUpcomingBirthday);
             }
+
+            // Function to display the birthday summary
+            function displayBirthdaySummary(todayBirthdays, upcomingBirthdays) {
+                let summaryHtml = '';
+                if (todayBirthdays.length > 0) {
+                    summaryHtml += `<p><strong>Happy Birthday Today to:</strong> ${todayBirthdays.join(', ')} <i class="fas fa-balloon"></i></p>`;
+                }
+                if (upcomingBirthdays.length > 0) {
+                    summaryHtml += `<p><em>Upcoming Birthdays (next 7 days):</em> ${upcomingBirthdays.join(', ')} <i class="fas fa-calendar-alt"></i></p>`;
+                }
+
+                if (summaryHtml) {
+                    birthdaySummaryDiv.innerHTML = summaryHtml;
+                    birthdaySummaryDiv.style.display = 'block';
+                } else {
+                    birthdaySummaryDiv.style.display = 'none';
+                    // Optional: show a message if no birthdays are coming up, or just hide the section
+                    // birthdaySummaryDiv.innerHTML = '<p class="no-birthdays-message">No upcoming birthdays in the next 7 days.</p>';
+                    // birthdaySummaryDiv.style.display = 'block';
+                }
+            }
+
 
             // --- Comparison Tool Logic ---
             function populateFriendSelects() {
