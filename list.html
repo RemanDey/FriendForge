@@ -6,7 +6,10 @@
     <title>Friends List - FriendForge</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* New Modern & Dynamic Styles */
+        /* Universal Box Sizing */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
 
         /* General Body Styling - Modern Dark Mode */
         body {
@@ -14,7 +17,7 @@
             background-color: #121212; /* Deeper, more sophisticated dark background */
             color: #E0E0E0; /* Soft white for primary text */
             margin: 0;
-            padding: 40px 20px; /* More padding around the container */
+            padding: 20px 15px; /* More responsive padding for smaller screens */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -26,12 +29,12 @@
 
         /* Container for the entire app - Modern Dark Mode */
         .container {
-            max-width: 960px; /* Slightly wider container */
-            width: 100%;
+            width: 100%; /* Default to full width minus padding */
+            max-width: 960px; /* Limit max width for large screens */
             background-color: #1F1F1F; /* Darker charcoal for container */
             border-radius: 15px; /* More rounded corners */
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* More pronounced, softer shadow */
-            padding: 35px 45px; /* Increased padding inside container */
+            padding: 25px 20px; /* Adjusted padding for responsiveness */
             box-sizing: border-box;
             margin-bottom: 30px;
             border: 1px solid rgba(60, 60, 60, 0.8); /* Subtle border for definition */
@@ -46,79 +49,96 @@
         /* Navigation Styling - Modern Dark Mode */
         nav {
             display: flex;
+            flex-direction: column; /* Stack navigation links in portrait by default */
             justify-content: center;
-            gap: 25px; /* More space between links */
-            margin-bottom: 40px; /* More separation from content */
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(70, 70, 70, 0.6); /* Lighter, subtle border */
+            gap: 15px; /* Adjust gap for stacking */
+            margin-bottom: 30px; /* More separation from content */
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(70, 70, 70, 0.6);
         }
 
         nav a {
             text-decoration: none;
-            color: #81D4FA; /* Lighter, more vibrant blue for links */
-            padding: 12px 25px; /* Larger clickable area */
-            border-radius: 8px; /* Slightly more rounded */
+            color: #81D4FA;
+            padding: 10px 20px; /* Smaller padding for stacked links */
+            border-radius: 8px;
             transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
-            font-weight: 600; /* Bolder text */
-            font-size: 1.1em;
+            font-weight: 600;
+            font-size: 1em;
             display: flex;
             align-items: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for buttons */
+            justify-content: center; /* Center text and icon in stacked mode */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            white-space: nowrap; /* Prevent text wrapping */
         }
 
         nav a i {
-            margin-right: 10px; /* More space for icons */
-            font-size: 1.2em; /* Slightly larger icons */
+            margin-right: 8px; /* Slightly less space for icons */
+            font-size: 1.1em;
         }
 
         nav a:hover {
-            background-color: #00838F; /* Darker teal on hover, more pronounced */
-            color: #FFFFFF; /* Pure white on hover */
-            transform: translateY(-2px); /* Slight lift on hover */
+            background-color: #00838F;
+            color: #FFFFFF;
+            transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
         }
 
         nav a.active {
-            background-color: #00ACC1; /* More vibrant teal for active link */
+            background-color: #00ACC1;
             color: white;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
         }
 
         /* Main Heading - Modern Dark Mode */
+        .main-title-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            text-align: center;
+        }
+
         h1 {
             text-align: center;
-            color: #B3E5FC; /* Bright blue for main heading */
-            margin-bottom: 35px;
-            font-size: 3em; /* Larger heading */
-            font-weight: 700; /* Bolder */
-            letter-spacing: 0.05em; /* Slightly spaced out */
-            text-shadow: 0 2px 8px rgba(0, 172, 193, 0.4); /* Subtle glow effect */
-            border-bottom: 2px solid #00ACC1; /* Matching accent border */
-            padding-bottom: 18px;
+            color: #B3E5FC;
+            margin-bottom: 25px; /* Reduced margin */
+            font-size: 2.5em; /* Slightly smaller for mobile first */
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-shadow: 0 2px 8px rgba(0, 172, 193, 0.4);
+            border-bottom: 2px solid #00ACC1;
+            padding-bottom: 15px; /* Reduced padding */
+            transition: all 0.3s ease-in-out;
+        }
+
+        h1:hover {
+            color: #E0F7FA;
+            text-shadow: 0 3px 12px rgba(0, 172, 193, 0.7);
+            transform: translateY(-2px);
         }
 
         /* Section Headings - Modern Dark Mode */
         .input-section h2, .display-section h2 {
-            color: #81D4FA; /* Vibrant blue for section headings */
+            color: #81D4FA;
             margin-top: 0;
-            margin-bottom: 25px;
-            border-bottom: 1px solid #00838F; /* Deeper teal border */
-            padding-bottom: 12px;
-            font-size: 2.2em; /* Larger section headings */
+            margin-bottom: 20px; /* Reduced margin */
+            border-bottom: 1px solid #00838F;
+            padding-bottom: 10px; /* Reduced padding */
+            font-size: 1.8em; /* Adjusted for smaller screens */
             font-weight: 600;
-            text-align: center; /* Centered for better flow */
+            text-align: center;
         }
 
-        /* Form Styling (less relevant for list.html but included for consistency) */
+        /* Form Styling - Modern Dark Mode (Not directly in list.html, but included for consistency) */
         form {
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            padding: 25px;
+            gap: 15px; /* Reduced gap */
+            padding: 20px; /* Reduced padding */
             border: 1px solid rgba(0, 172, 193, 0.4);
             border-radius: 12px;
             background-color: #282828;
-            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.4);
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.4); /* Reduced shadow */
         }
 
         .form-group {
@@ -127,242 +147,427 @@
         }
 
         .form-group label {
-            margin-bottom: 8px;
+            margin-bottom: 5px; /* Reduced margin */
             font-weight: bold;
             color: #B3E5FC;
-            font-size: 1.05em;
+            font-size: 1em; /* Adjusted font size */
         }
 
         .form-group input[type="text"],
         .form-group input[type="number"],
         .form-group textarea {
-            padding: 12px 15px;
+            padding: 10px 12px; /* Reduced padding */
             border: 1px solid #444;
             border-radius: 8px;
-            font-size: 1.1em;
+            font-size: 1em; /* Adjusted font size */
             background-color: #333;
             color: #E0E0E0;
+            resize: vertical;
+            min-height: 45px; /* Adjusted min height */
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4); /* Reduced shadow */
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
-        /* Button Styling - Modern Dynamic */
+        .form-group input[type="text"]:focus,
+        .form-group input[type="number"]:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #00ACC1;
+            box-shadow: 0 0 0 3px rgba(0, 172, 193, 0.3), inset 0 1px 2px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Button Styling - Modern Dynamic (Not directly in list.html, but included for consistency) */
         button {
-            padding: 12px 25px;
+            padding: 10px 20px; /* Reduced padding */
             background-color: #00ACC1;
             color: white;
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 1.15em;
+            font-size: 1.05em; /* Adjusted font size */
             font-weight: bold;
             transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 172, 193, 0.4);
+            box-shadow: 0 3px 10px rgba(0, 172, 193, 0.4); /* Reduced shadow */
         }
 
         button:hover {
             background-color: #00838F;
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 172, 193, 0.6);
+            box-shadow: 0 5px 15px rgba(0, 172, 193, 0.6);
         }
 
         button:active {
             transform: translateY(0);
-            box-shadow: 0 2px 10px rgba(0, 172, 193, 0.3);
+            box-shadow: 0 2px 8px rgba(0, 172, 193, 0.3);
         }
 
         #clearForm {
             background-color: #FFB300;
-            box-shadow: 0 4px 15px rgba(255, 179, 0, 0.4);
+            box-shadow: 0 3px 10px rgba(255, 179, 0, 0.4);
         }
         #clearForm:hover {
             background-color: #FB8C00;
-            box-shadow: 0 6px 20px rgba(255, 179, 0, 0.6);
+            box-shadow: 0 5px 15px rgba(255, 179, 0, 0.6);
         }
 
         .delete-button {
             background-color: #E53935;
-            margin-top: 25px;
-            box-shadow: 0 4px 15px rgba(229, 57, 53, 0.4);
+            margin-top: 20px; /* Reduced margin */
+            box-shadow: 0 3px 10px rgba(229, 57, 53, 0.4);
         }
         .delete-button:hover {
             background-color: #C62828;
-            box-shadow: 0 6px 20px rgba(229, 57, 53, 0.6);
+            box-shadow: 0 5px 15px rgba(229, 57, 53, 0.6);
         }
 
-        hr {
-            display: none;
-        }
-
-        /* Friend Cards Display Grid (Common for both, refined) */
+        /* Friend Cards Display Grid (Mobile-first adjustment) */
         .friends-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Slightly wider cards */
-            gap: 25px; /* More space between cards */
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); /* Safer min-width for portrait phones */
+            gap: 20px; /* Reduced gap */
         }
 
-        /* Styling for individual friend cards (Common for both, refined) */
+        /* Styling for individual friend cards (Adjusted for responsiveness) */
         .friend-card {
-            background-color: #282828; /* Dark card background, matching form */
-            border: 1px solid rgba(70, 70, 70, 0.8); /* Subtle border */
-            border-radius: 12px; /* More rounded cards */
-            padding: 20px 25px; /* Increased padding */
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4); /* Stronger shadow for depth */
+            background-color: #282828;
+            border: 1px solid rgba(70, 70, 70, 0.8);
+            border-radius: 10px; /* Slightly less rounded */
+            padding: 18px 20px; /* Adjusted padding */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* Reduced shadow */
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
             position: relative;
-            color: #E0E0E0; /* Light text within cards */
-            cursor: pointer; /* Indicate it's clickable */
-            display: flex; /* Flexbox for internal layout */
+            color: #E0E0E0;
+            cursor: pointer;
+            display: flex;
             flex-direction: column;
-            justify-content: space-between; /* Space out content */
+            justify-content: space-between;
         }
 
         .friend-card:hover {
-            transform: translateY(-5px); /* More pronounced lift */
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6); /* Deeper shadow on hover */
-            border-color: #00ACC1; /* Highlight border on hover */
+            transform: translateY(-4px); /* Slightly less pronounced lift */
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6); /* Adjusted shadow */
+            border-color: #00ACC1;
         }
 
         /* Friend Name Styling */
         .friend-card h3 {
-            color: #B3E5FC; /* Bright blue for friend names */
+            color: #B3E5FC;
             margin-top: 0;
-            margin-bottom: 15px; /* More space below name */
-            border-bottom: 1px solid #00838F; /* Deeper teal border */
-            padding-bottom: 10px;
-            font-size: 1.8em; /* Larger name */
+            margin-bottom: 12px; /* Reduced margin */
+            border-bottom: 1px solid #00838F;
+            padding-bottom: 8px; /* Reduced padding */
+            font-size: 1.6em; /* Adjusted font size */
             font-weight: 600;
-            pointer-events: none; /* Make heading not directly clickable, so the parent card handles it */
+            pointer-events: none;
         }
 
         /* Parameter Text Styling */
         .friend-card p {
-            color: #C0C0C0; /* Slightly lighter text for parameters */
-            margin: 6px 0;
+            color: #C0C0C0;
+            margin: 5px 0; /* Reduced margin */
             line-height: 1.4;
-            font-size: 0.95em;
-            pointer-events: none; /* Make text not directly clickable, so the parent card handles it */
+            font-size: 0.9em; /* Slightly smaller font size */
+            pointer-events: none;
         }
 
         /* Parameter Name (e.g., "Truthfulness:") Styling */
         .friend-card strong {
-            color: #81D4FA; /* Vibrant blue for parameter labels */
-            min-width: 110px; /* Slightly wider alignment */
+            color: #81D4FA;
+            min-width: 100px; /* Adjusted for smaller screens */
             display: inline-block;
         }
 
         .friend-card .delete-card-button {
             position: absolute;
-            top: 15px;
-            right: 15px;
-            background-color: #E53935; /* Stronger red */
+            top: 10px; /* Adjusted position */
+            right: 10px; /* Adjusted position */
+            background-color: #E53935;
             color: white;
             border: none;
             border-radius: 50%;
-            width: 36px; /* Larger button */
-            height: 36px; /* Larger button */
-            font-size: 1.3em;
+            width: 32px; /* Smaller button */
+            height: 32px; /* Smaller button */
+            font-size: 1.1em; /* Adjusted font size */
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
             padding: 0;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); /* Subtle shadow */
-            pointer-events: auto; /* Allow this button to be clickable */
-            z-index: 10; /* Ensure it's above card content */
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            pointer-events: auto;
+            z-index: 10;
         }
 
         .friend-card .delete-card-button:hover {
             background-color: #C62828;
-            transform: scale(1.1); /* Pop effect on hover */
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            transform: scale(1.1);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
         }
 
         /* --- Progress Bar Styles - Modern Dynamic --- */
         .progress-container {
             width: 100%;
-            background-color: #3A3A3A; /* Darker background for the empty part of the bar */
-            border-radius: 8px; /* More rounded bars */
+            background-color: #3A3A3A;
+            border-radius: 8px;
             overflow: hidden;
-            height: 12px; /* Slightly taller bars */
-            margin-top: 8px; /* More space */
-            margin-bottom: 15px;
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4); /* Inner shadow for depth */
-            pointer-events: none; /* Make progress bar not directly clickable */
+            height: 10px; /* Slightly thinner bars */
+            margin-top: 6px; /* Reduced margin */
+            margin-bottom: 10px; /* Reduced margin */
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
+            pointer-events: none;
         }
 
         .progress-bar {
             height: 100%;
-            width: 0%; /* Initial state for animation */
+            width: 0%;
             border-radius: 8px;
-            transition: width 0.8s ease-out, background-color 0.3s ease; /* Slower, smoother animation */
-            display: flex; /* Ensure it fills container */
+            transition: width 0.8s ease-out, background-color 0.3s ease;
+            display: flex;
             align-items: center;
             justify-content: flex-end;
-            padding-right: 5px; /* Space for potential value inside bar */
+            padding-right: 5px;
             font-size: 0.7em;
             color: rgba(255,255,255,0.8);
         }
 
         /* Dynamic Colors for Progress Bars */
-        .progress-bar.low { background-color: #FF5252; } /* Vivid red */
-        .progress-bar.medium { background-color: #FFD740; } /* Gold */
-        .progress-bar.high { background-color: #69F0AE; } /* Bright green */
+        .progress-bar.low { background-color: #FF5252; }
+        .progress-bar.medium { background-color: #FFD740; }
+        .progress-bar.high { background-color: #69F0AE; }
 
 
         /* Specific styling for the text-based parameters to ensure consistent spacing */
         .friend-card p.text-param {
-            margin-top: 15px;
-            margin-bottom: 8px;
-            color: #B0B0B0; /* Slightly darker for these specific texts */
+            margin-top: 12px;
+            margin-bottom: 6px;
+            color: #B0B0B0;
         }
 
         /* Search Bar Styling - Modern Dark Mode */
         .search-container {
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             text-align: center;
         }
 
         #searchBar {
-            padding: 12px 20px;
-            width: 80%; /* Wider search bar */
-            max-width: 450px;
+            padding: 10px 15px;
+            width: 90%;
+            max-width: 400px;
             border: 1px solid #444;
-            border-radius: 25px; /* Pill shape */
-            font-size: 1.1em;
+            border-radius: 20px;
+            font-size: 1em;
             background-color: #333;
             color: #E0E0E0;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.4); /* Deeper inner shadow */
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.4);
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
-        #searchBar::placeholder { /* Placeholder text color */
+        #searchBar::placeholder {
             color: #999;
         }
 
         #searchBar:focus {
             outline: none;
-            border-color: #00ACC1; /* Highlight border on focus */
-            box-shadow: 0 0 0 4px rgba(0, 172, 193, 0.3), inset 0 2px 5px rgba(0,0,0,0.6); /* Outer glow */
+            border-color: #00ACC1;
+            box-shadow: 0 0 0 3px rgba(0, 172, 193, 0.3), inset 0 1px 3px rgba(0,0,0,0.6);
         }
+
+
+        /* --- Media Queries for Landscape / Larger Screens --- */
+
+        /* For screens wider than 576px (e.g., larger phones in landscape, small tablets) */
+        @media (min-width: 576px) {
+            .container {
+                padding: 30px 30px; /* More generous padding */
+            }
+
+            nav {
+                flex-direction: row; /* Navigation links appear side-by-side */
+                gap: 20px; /* More space between links */
+            }
+
+            nav a {
+                padding: 10px 22px; /* Slightly larger clickable area */
+                font-size: 1.05em;
+            }
+
+            h1 {
+                font-size: 2.8em; /* Slightly larger heading */
+                margin-bottom: 30px;
+                padding-bottom: 18px;
+            }
+
+            .input-section h2, .display-section h2 {
+                font-size: 2em; /* Larger section headings */
+                margin-bottom: 22px;
+                padding-bottom: 12px;
+            }
+
+            .friends-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Allow two columns more easily */
+                gap: 22px;
+            }
+            .friend-card {
+                padding: 20px 22px;
+            }
+        }
+
+        /* For screens wider than 768px (e.g., tablets in landscape, desktops) */
+        @media (min-width: 768px) {
+            body {
+                padding: 40px 20px; /* Restore original body padding */
+            }
+
+            .container {
+                padding: 35px 45px; /* Restore original container padding */
+            }
+
+            nav {
+                gap: 25px; /* Restore original nav gap */
+                margin-bottom: 40px;
+                padding-bottom: 20px;
+            }
+
+            nav a {
+                padding: 12px 25px; /* Restore original nav link padding */
+                font-size: 1.1em;
+                justify-content: center; /* Ensure centered still for better alignment */
+            }
+
+            h1 {
+                font-size: 3em; /* Restore original heading size */
+                margin-bottom: 35px;
+                padding-bottom: 18px;
+            }
+
+            .input-section h2, .display-section h2 {
+                font-size: 2.2em; /* Restore original section heading size */
+                margin-bottom: 25px;
+                padding-bottom: 12px;
+            }
+
+            form {
+                gap: 20px; /* Restore original form gap */
+                padding: 25px; /* Restore original form padding */
+            }
+
+            .form-group label {
+                margin-bottom: 8px; /* Restore original label margin */
+                font-size: 1.05em;
+            }
+
+            .form-group input[type="text"],
+            .form-group input[type="number"],
+            .form-group textarea {
+                padding: 12px 15px; /* Restore original input padding */
+                font-size: 1.1em;
+                min-height: 50px; /* Restore original min height */
+            }
+
+            button {
+                padding: 12px 25px; /* Restore original button padding */
+                font-size: 1.15em;
+            }
+
+            #clearForm {
+                margin-top: 0; /* Align with save button */
+            }
+
+            .delete-button {
+                margin-top: 25px; /* Restore original margin */
+            }
+
+            .friends-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Restore original card min-width */
+                gap: 25px; /* Restore original card gap */
+            }
+
+            .friend-card {
+                border-radius: 12px; /* Restore original card border-radius */
+                padding: 20px 25px; /* Restore original card padding */
+                box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4); /* Restore original shadow */
+            }
+
+            .friend-card:hover {
+                transform: translateY(-5px); /* Restore original lift */
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6); /* Restore original shadow */
+            }
+
+            .friend-card h3 {
+                margin-bottom: 15px; /* Restore original margin */
+                padding-bottom: 10px; /* Restore original padding */
+                font-size: 1.8em; /* Restore original font size */
+            }
+
+            .friend-card p {
+                margin: 6px 0; /* Restore original margin */
+                font-size: 0.95em; /* Restore original font size */
+            }
+
+            .friend-card strong {
+                min-width: 110px; /* Restore original min-width */
+            }
+
+            .friend-card .delete-card-button {
+                width: 36px; /* Restore original button size */
+                height: 36px; /* Restore original button size */
+                font-size: 1.3em; /* Restore original font size */
+                top: 15px; /* Restore original position */
+                right: 15px; /* Restore original position */
+            }
+
+            .progress-container {
+                height: 12px; /* Restore original bar height */
+                margin-top: 8px; /* Restore original margin */
+                margin-bottom: 15px; /* Restore original margin */
+            }
+
+            .friend-card p.text-param {
+                margin-top: 15px; /* Restore original margin */
+                margin-bottom: 8px; /* Restore original margin */
+            }
+
+            .search-container {
+                margin-bottom: 30px; /* Restore original margin */
+            }
+
+            #searchBar {
+                padding: 12px 20px; /* Restore original search bar padding */
+                max-width: 450px; /* Restore original max-width */
+                border-radius: 25px; /* Restore original border-radius */
+                font-size: 1.1em; /* Restore original font size */
+            }
+        }
+
+        /* Specific adjustment for navigation in very wide screens to prevent stretching */
+        @media (min-width: 992px) {
+            nav {
+                max-width: 800px; /* Limit nav width for aesthetic */
+                width: 100%;
+            }
+        }
+
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>FriendForge</h1>
+        <a href="about.html" class="main-title-link">
+            <h1>FriendForge</h1>
+        </a>
 
         <nav>
-            <a href="index.html"><i class="fas fa-plus-circle"></i> Add Friend</a>
-            <a href="list.html" class="active"><i class="fas fa-users"></i> View Friends List</a>
+            <a href="index.html" class="active"><i class="fas fa-plus-circle"></i> Add Friend</a>
+            <a href="list.html"><i class="fas fa-users"></i> View Friends List</a>
         </nav>
 
         <div class="display-section">
-            <h2>My Friends</h2>
+            <h2>Your Friends</h2>
             <div class="search-container">
-                <input type="text" id="searchBar" placeholder="Search friends by name...">
+                <input type="text" id="searchBar" placeholder="Search friends...">
             </div>
-            <div id="friendsList" class="friends-grid">
+            <div id="friends-list" class="friends-grid">
                 </div>
-            <button id="clearAllData" class="delete-button">Clear All Saved Data</button>
         </div>
     </div>
 
@@ -376,131 +581,105 @@
             localStorage.setItem('friends', JSON.stringify(friends));
         }
 
-        function getProgressBarHTML(score) {
-            const validScore = typeof score === 'number' && !isNaN(score) ? Math.max(0, Math.min(10, score)) : 0;
-            const percentage = (validScore / 10) * 100;
-            let colorClass = '';
-            if (validScore <= 3) {
-                colorClass = 'low';
-            } else if (validScore <= 7) {
-                colorClass = 'medium';
-            } else {
-                colorClass = 'high';
-            }
-            return `
-                <div class="progress-container">
-                    <div class="progress-bar ${colorClass}" style="width: ${percentage}%;"></div>
-                </div>
-            `;
-        }
+        function renderFriends(friendsToDisplay) {
+            const friendsListDiv = document.getElementById('friends-list');
+            friendsListDiv.innerHTML = ''; // Clear existing cards
 
-        function renderFriends(searchTerm = '') {
-            let friends = getFriends();
-            const friendsListDiv = document.getElementById('friendsList');
-            if (!friendsListDiv) return;
-
-            friendsListDiv.innerHTML = '';
-
-            if (searchTerm.trim() !== '') {
-                const lowerCaseSearchTerm = searchTerm.trim().toLowerCase();
-                friends = friends.filter(friend =>
-                    friend.name.toLowerCase().includes(lowerCaseSearchTerm) ||
-                    friend.foodPreference.toLowerCase().includes(lowerCaseSearchTerm) ||
-                    friend.hobbies.toLowerCase().includes(lowerCaseSearchTerm) ||
-                    friend.notes.toLowerCase().includes(lowerCaseSearchTerm)
-                );
-            }
-
-            friends.sort((a, b) => {
-                const nameA = a.name.toLowerCase();
-                const nameB = b.name.toLowerCase();
-                if (nameA < nameB) return -1;
-                if (nameA > nameB) return 1;
-                return 0;
-            });
-
-            if (friends.length === 0) {
-                friendsListDiv.innerHTML = '<p style="text-align: center; color: #777;">No friends found matching your criteria.</p>';
+            if (friendsToDisplay.length === 0) {
+                friendsListDiv.innerHTML = '<p style="text-align: center; color: #999;">No friends found. Add some on the "Add Friend" page!</p>';
                 return;
             }
 
-            friends.forEach(friend => {
+            friendsToDisplay.forEach(friend => {
                 const friendCard = document.createElement('div');
-                friendCard.classList.add('friend-card');
-                friendCard.dataset.name = friend.name;
+                friendCard.className = 'friend-card';
+                friendCard.setAttribute('data-name', friend.name); // Used for search and delete
 
                 friendCard.innerHTML = `
                     <h3>${friend.name}</h3>
-                    <button class="delete-card-button" data-name="${friend.name}">&times;</button>
+                    <button class="delete-card-button" data-name="${friend.name}"><i class="fas fa-times"></i></button>
 
-                    <p><strong>Truthfulness:</strong> ${friend.truthness || 'N/A'}/10</p>
-                    ${getProgressBarHTML(friend.truthness)}
+                    <p><strong>Truthfulness:</strong> ${friend.truthness}/10</p>
+                    <div class="progress-container"><div class="progress-bar ${getProgressBarClass(friend.truthness)}" style="width: ${(friend.truthness / 10) * 100}%"></div></div>
 
-                    <p><strong>Angriness:</strong> ${friend.angriness || 'N/A'}/10</p>
-                    ${getProgressBarHTML(friend.angriness)}
+                    <p><strong>Angriness:</strong> ${friend.angriness}/10</p>
+                    <div class="progress-container"><div class="progress-bar ${getProgressBarClass(friend.angriness)}" style="width: ${(friend.angriness / 10) * 100}%"></div></div>
 
-                    <p><strong>Humor:</strong> ${friend.humor || 'N/A'}/10</p>
-                    ${getProgressBarHTML(friend.humor)}
+                    <p><strong>Humor:</strong> ${friend.humor}/10</p>
+                    <div class="progress-container"><div class="progress-bar ${getProgressBarClass(friend.humor)}" style="width: ${(friend.humor / 10) * 100}%"></div></div>
 
                     <p><strong>Empathy:</strong> ${friend.empathy || 'N/A'}/10</p>
-                    ${getProgressBarHTML(friend.empathy)}
+                    <div class="progress-container"><div class="progress-bar ${getProgressBarClass(friend.empathy)}" style="width: ${(friend.empathy / 10) * 100}%"></div></div>
 
                     <p><strong>Optimism:</strong> ${friend.optimism || 'N/A'}/10</p>
-                    ${getProgressBarHTML(friend.optimism)}
+                    <div class="progress-container"><div class="progress-bar ${getProgressBarClass(friend.optimism)}" style="width: ${(friend.optimism / 10) * 100}%"></div></div>
 
                     <p><strong>Creativity:</strong> ${friend.creativity || 'N/A'}/10</p>
-                    ${getProgressBarHTML(friend.creativity)}
+                    <div class="progress-container"><div class="progress-bar ${getProgressBarClass(friend.creativity)}" style="width: ${(friend.creativity / 10) * 100}%"></div></div>
 
                     <p><strong>Social Score:</strong> ${friend.socialScore || 'N/A'}/10</p>
-                    ${getProgressBarHTML(friend.socialScore)}
+                    <div class="progress-container"><div class="progress-bar ${getProgressBarClass(friend.socialScore)}" style="width: ${(friend.socialScore / 10) * 100}%"></div></div>
 
                     <p><strong>Calmness:</strong> ${friend.calmness || 'N/A'}/10</p>
-                    ${getProgressBarHTML(friend.calmness)}
+                    <div class="progress-container"><div class="progress-bar ${getProgressBarClass(friend.calmness)}" style="width: ${(friend.calmness / 10) * 100}%"></div></div>
 
                     <p><strong>Punctuality:</strong> ${friend.punctuality || 'N/A'}/10</p>
-                    ${getProgressBarHTML(friend.punctuality)}
+                    <div class="progress-container"><div class="progress-bar ${getProgressBarClass(friend.punctuality)}" style="width: ${(friend.punctuality / 10) * 100}%"></div></div>
 
-                    ${friend.foodPreference ? `<p class="text-param"><strong>Food Pref:</strong> ${friend.foodPreference}</p>` : ''}
-                    ${friend.hobbies ? `<p class="text-param"><strong>Hobbies:</strong> ${friend.hobbies}</p>` : ''}
-                    ${friend.notes ? `<p class="text-param"><strong>Notes:</strong> ${friend.notes}</p>` : ''}
+                    <p class="text-param"><strong>Food Preference:</strong> ${friend.foodPreference || 'N/A'}</p>
+                    <p class="text-param"><strong>Hobbies:</strong> ${friend.hobbies || 'N/A'}</p>
+                    <p class="text-param"><strong>Notes:</strong> ${friend.notes || 'N/A'}</p>
                 `;
                 friendsListDiv.appendChild(friendCard);
             });
         }
 
+        function getProgressBarClass(value) {
+            if (value === null || isNaN(value)) {
+                return 'low'; // Default for N/A or invalid
+            }
+            if (value <= 3) {
+                return 'low';
+            } else if (value <= 7) {
+                return 'medium';
+            } else {
+                return 'high';
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
+            let allFriends = getFriends();
+            renderFriends(allFriends);
+
             const searchBar = document.getElementById('searchBar');
-            const friendsListDiv = document.getElementById('friendsList');
-
-            renderFriends();
-
             searchBar.addEventListener('input', function() {
-                renderFriends(this.value);
+                const searchTerm = searchBar.value.toLowerCase();
+                const filteredFriends = allFriends.filter(friend =>
+                    friend.name.toLowerCase().includes(searchTerm) ||
+                    (friend.foodPreference && friend.foodPreference.toLowerCase().includes(searchTerm)) ||
+                    (friend.hobbies && friend.hobbies.toLowerCase().includes(searchTerm)) ||
+                    (friend.notes && friend.notes.toLowerCase().includes(searchTerm))
+                );
+                renderFriends(filteredFriends);
             });
 
+            const friendsListDiv = document.getElementById('friends-list');
             friendsListDiv.addEventListener('click', function(event) {
-                if (event.target.classList.contains('delete-card-button')) {
-                    const friendToDelete = event.target.dataset.name;
-                    if (confirm(`Are you sure you want to delete ${friendToDelete}'s data?`)) {
-                        let friends = getFriends();
-                        friends = friends.filter(f => f.name !== friendToDelete);
-                        saveFriends(friends);
-                        renderFriends(searchBar.value);
-                    }
-                } else {
-                    const friendCard = event.target.closest('.friend-card');
-                    if (friendCard) {
-                        const friendName = friendCard.dataset.name;
-                        window.location.href = `index.html?edit=${encodeURIComponent(friendName)}`;
+                // Handle Delete Button
+                if (event.target.closest('.delete-card-button')) {
+                    const button = event.target.closest('.delete-card-button');
+                    const friendName = button.getAttribute('data-name');
+                    if (confirm(`Are you sure you want to delete ${friendName}?`)) {
+                        allFriends = allFriends.filter(friend => friend.name !== friendName);
+                        saveFriends(allFriends);
+                        renderFriends(allFriends);
                     }
                 }
-            });
-
-            document.getElementById('clearAllData').addEventListener('click', function() {
-                if (confirm('Are you sure you want to delete ALL saved friend data? This cannot be undone.')) {
-                    localStorage.removeItem('friends');
-                    renderFriends(searchBar.value);
-                    alert('All friend data has been cleared!');
+                // Handle Card Click for Editing (but not if delete button was clicked)
+                else if (event.target.closest('.friend-card') && !event.target.closest('.delete-card-button')) {
+                    const card = event.target.closest('.friend-card');
+                    const friendName = card.getAttribute('data-name');
+                    window.location.href = `index.html?edit=${encodeURIComponent(friendName)}`;
                 }
             });
         });
