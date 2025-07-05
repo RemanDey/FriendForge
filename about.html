@@ -6,66 +6,75 @@
     <title>About Me - FriendForge</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Shared Modern & Dynamic Styles from index.html/list.html */
+        /* Universal Box Sizing */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
 
+        /* General Body Styling - Modern Dark Mode */
         body {
-            font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-            background-color: #121212;
-            color: #E0E0E0;
+            font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif; /* Modern, clean font stack */
+            background-color: #121212; /* Deeper, more sophisticated dark background */
+            color: #E0E0E0; /* Soft white for primary text */
             margin: 0;
-            padding: 40px 20px;
+            padding: 20px 15px; /* More responsive padding for smaller screens */
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
             box-sizing: border-box;
             line-height: 1.6;
-            text-rendering: optimizeLegibility;
+            text-rendering: optimizeLegibility; /* Improve text rendering */
         }
 
+        /* Container for the entire app - Modern Dark Mode */
         .container {
-            max-width: 960px;
-            width: 100%;
-            background-color: #1F1F1F;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            padding: 35px 45px;
+            width: 100%; /* Default to full width minus padding */
+            max-width: 960px; /* Limit max width for large screens */
+            background-color: #1F1F1F; /* Darker charcoal for container */
+            border-radius: 15px; /* More rounded corners */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* More pronounced, softer shadow */
+            padding: 25px 20px; /* Adjusted padding for responsiveness */
             box-sizing: border-box;
             margin-bottom: 30px;
-            border: 1px solid rgba(60, 60, 60, 0.8);
-            transition: all 0.3s ease-in-out;
+            border: 1px solid rgba(60, 60, 60, 0.8); /* Subtle border for definition */
+            transition: all 0.3s ease-in-out; /* Smooth transition for hover effects */
         }
 
         .container:hover {
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
-            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7); /* Deeper shadow on hover */
+            transform: translateY(-3px); /* Slight lift on hover */
         }
 
+        /* Navigation Styling - Modern Dark Mode */
         nav {
             display: flex;
+            flex-direction: column; /* Stack navigation links in portrait by default */
             justify-content: center;
-            gap: 25px;
-            margin-bottom: 40px;
-            padding-bottom: 20px;
+            gap: 15px; /* Adjust gap for stacking */
+            margin-bottom: 30px; /* More separation from content */
+            padding-bottom: 15px;
             border-bottom: 1px solid rgba(70, 70, 70, 0.6);
         }
 
         nav a {
             text-decoration: none;
             color: #81D4FA;
-            padding: 12px 25px;
+            padding: 10px 20px; /* Smaller padding for stacked links */
             border-radius: 8px;
             transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
             font-weight: 600;
-            font-size: 1.1em;
+            font-size: 1em;
             display: flex;
             align-items: center;
+            justify-content: center; /* Center text and icon in stacked mode */
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            white-space: nowrap; /* Prevent text wrapping */
         }
 
         nav a i {
-            margin-right: 10px;
-            font-size: 1.2em;
+            margin-right: 8px; /* Slightly less space for icons */
+            font-size: 1.1em;
         }
 
         nav a:hover {
@@ -81,6 +90,7 @@
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
         }
 
+        /* Main Heading - Modern Dark Mode */
         .main-title-link {
             text-decoration: none;
             color: inherit;
@@ -91,13 +101,13 @@
         h1 {
             text-align: center;
             color: #B3E5FC;
-            margin-bottom: 35px;
-            font-size: 3em;
+            margin-bottom: 25px; /* Reduced margin */
+            font-size: 2.5em; /* Slightly smaller for mobile first */
             font-weight: 700;
             letter-spacing: 0.05em;
             text-shadow: 0 2px 8px rgba(0, 172, 193, 0.4);
             border-bottom: 2px solid #00ACC1;
-            padding-bottom: 18px;
+            padding-bottom: 15px; /* Reduced padding */
             transition: all 0.3s ease-in-out;
         }
 
@@ -107,12 +117,24 @@
             transform: translateY(-2px);
         }
 
+        /* Section Headings - Modern Dark Mode */
+        .input-section h2, .display-section h2 { /* These might not be used directly in about.html but keep for consistency if style is shared */
+            color: #81D4FA;
+            margin-top: 0;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #00838F;
+            padding-bottom: 10px;
+            font-size: 1.8em;
+            font-weight: 600;
+            text-align: center;
+        }
+
         /* Unique Styles for About Page */
         .about-content {
             padding: 20px;
             line-height: 1.8;
             font-size: 1.1em;
-            text-align: justify; /* Justify text for a cleaner look */
+            text-align: justify;
         }
 
         .about-content h2 {
@@ -162,6 +184,92 @@
             text-decoration: underline;
         }
 
+        /* --- Media Queries for Landscape / Larger Screens --- */
+
+        /* For screens wider than 576px (e.g., larger phones in landscape, small tablets) */
+        @media (min-width: 576px) {
+            .container {
+                padding: 30px 30px; /* More generous padding */
+            }
+
+            nav {
+                flex-direction: row; /* Navigation links appear side-by-side */
+                gap: 20px; /* More space between links */
+            }
+
+            nav a {
+                padding: 10px 22px; /* Slightly larger clickable area */
+                font-size: 1.05em;
+            }
+
+            h1 {
+                font-size: 2.8em; /* Slightly larger heading */
+                margin-bottom: 30px;
+                padding-bottom: 18px;
+            }
+
+            .about-content h2 {
+                font-size: 2em; /* Larger section headings */
+                margin-bottom: 22px;
+                padding-bottom: 12px;
+            }
+            .about-content h3 {
+                font-size: 1.6em;
+            }
+            .about-content p {
+                font-size: 1em;
+            }
+        }
+
+        /* For screens wider than 768px (e.g., tablets in landscape, desktops) */
+        @media (min-width: 768px) {
+            body {
+                padding: 40px 20px; /* Restore original body padding */
+            }
+
+            .container {
+                padding: 35px 45px; /* Restore original container padding */
+            }
+
+            nav {
+                gap: 25px; /* Restore original nav gap */
+                margin-bottom: 40px;
+                padding-bottom: 20px;
+            }
+
+            nav a {
+                padding: 12px 25px; /* Restore original nav link padding */
+                font-size: 1.1em;
+                justify-content: center; /* Ensure centered still for better alignment */
+            }
+
+            h1 {
+                font-size: 3em; /* Restore original heading size */
+                margin-bottom: 35px;
+                padding-bottom: 18px;
+            }
+
+            .about-content h2 {
+                font-size: 2.2em; /* Restore original section heading size */
+                margin-bottom: 25px;
+                padding-bottom: 12px;
+            }
+            .about-content h3 {
+                font-size: 1.8em;
+            }
+            .about-content p {
+                font-size: 1.1em;
+            }
+        }
+
+        /* Specific adjustment for navigation in very wide screens to prevent stretching */
+        @media (min-width: 992px) {
+            nav {
+                max-width: 800px; /* Limit nav width for aesthetic */
+                width: 100%;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -193,12 +301,13 @@
 
             <p>This project helped me understand data persistence in the browser, dynamic DOM manipulation, and building a clean, user-friendly interface. It represents my passion for creating useful tools that blend functionality with appealing design.</p>
 
-            <h3>About Mr. Reman Dey (Nickname: Dodo)</h3>
+            <h3>About the Creator</h3>
             <p>
-                Born on November 15, 2006, I'm Reman Dey, a physics enthusiast who thrives on hands-on innovation and solving tough research-oriented problems. My passion comes alive through projects like a functioning hovercraft, a sophisticated laser-based transmitter and receiver, a quadcopter, and even a Tesla turbine. Beyond hardware, I delve into software too, having developed the FriendForge app and created two Python-powered Telegram bots, Dodo and Luna.
+               Born on November 15, 2006, I'm Reman Dey, a physics enthusiast who thrives on hands-on innovation and solving tough research-oriented problems. My passion comes alive through projects like a functioning hovercraft, a sophisticated laser-based transmitter and receiver, a quadcopter, and even a Tesla turbine. Beyond hardware, I delve into software too, having developed the FriendForge app and created two Python-powered Telegram bots, Dodo and Luna.
             </p>
-            <p>My academic journey reflects this drive; I've successfully qualified for JEE Advanced and Mains and cleared NSEA twice, demonstrating a solid grasp of scientific principles. Outside of my technical pursuits, I unwind with origami, specializing in intricate paper planes, and enjoy playing percussion instruments.
-</p>
+            <p>
+                My academic journey reflects this drive; I've successfully qualified for JEE Advanced and Mains and cleared NSEA twice, demonstrating a solid grasp of scientific principles. Outside of my technical pursuits, I unwind with origami, specializing in intricate paper planes, and enjoy playing percussion instruments.
+            </p>
 
             <h3>Future Enhancements</h3>
             <p>While currently focused on core features, I envision future enhancements such as:</p>
@@ -207,7 +316,6 @@
                 <li>More advanced search and filtering options.</li>
                 <li>Perhaps a light mode theme toggle!</li>
             </ul>
-
         </div>
     </div>
 </body>
